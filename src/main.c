@@ -81,6 +81,10 @@ int draw_loop(t_game *game)
     clear_image(game);
     make_square(player->x, player->y, 10, 0xFF0000, game);
     draw_map(game);
+    float ray_x = player->x;
+    float ray_y = player->y;
+    float cos_angle = cos(player->angle);
+    float sin_angle = sin(player->angle);
     mlx_put_image_to_window(game->mlx, game->win, game->img, 0, 0);
     return 0;
 }
