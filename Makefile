@@ -10,7 +10,9 @@ MLX_LIB = $(MLX_DIR)/libmlx.a
 LFLAGS = -L$(MLX_DIR) -lmlx -lXext -lX11 -lm -lz
 INCLUDES = -I$(MLX_DIR)
 
-SRC = src/main.c
+SRC = src/main.c \
+	  src/player.c
+	  
 OBJ = $(SRC:.c=.o)
 
 all: $(MLX_LIB) $(NAME)
