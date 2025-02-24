@@ -1,71 +1,121 @@
-# Makefile for Cub3D project
+# **************************************************************************** #
+#                                                                              #
+#                                                         :::      ::::::::    #
+#    Makefile                                           :+:      :+:    :+:    #
+#                                                     +:+ +:+         +:+      #
+#    By: dsamuel <dsamuel@student.42.fr>            +#+  +:+       +#+         #
+#                                                 +#+#+#+#+#+   +#+            #
+#    Created: 2025/02/20 15:02:36 by dsamuel           #+#    #+#              #
+#    Updated: 2025/02/20 18:24:54 by dsamuel          ###   ########.fr        #
+#                                                                              #
+# **************************************************************************** #
 
-NAME = cub3d
+# Program file name
+NAME	= cub3d
 
-# Compiler and flags
-CC = gcc
-CFLAGS = -Wall -Wextra -Werror -I$(MLX_DIR)
+# # Mode
+# BONUS = 0
 
-# Directories
-LIBFT_DIR = libft
-MLX_DIR = minilibx-linux
+# Compiler and compilation flags
+CC		= gcc
+CFLAGS	= -Werror -Wextra -Wall -g3 #-fsanitize=address
 
-# Libraries
-LIBFT = $(LIBFT_DIR)/libft.a
-MLX = $(MLX_DIR)/libmlx.a
+# Minilibx
+MLX_PATH	= minilibx-linux/
+MLX_NAME	= libmlx.a
+MLX			= $(MLX_PATH)$(MLX_NAME)
 
-# MinilibX flags (for Linux)
-MLX_FLAGS = -L$(MLX_DIR) -lmlx -L/usr/lib -lXext -lX11 -lm -lz
+# Libft
+LIBFT_PATH	= libft/
+LIBFT_NAME	= libft.a
+LIBFT		= $(LIBFT_PATH)$(LIBFT_NAME)
 
-# Source files
-SRCS = main.c \
-	   map_parser.c \
-	   texture_loader.c \
-	   cleaner.c \
-	   raycast.c
+# Sources
+SRC_PATH = ./sources/
+SRC		= 	main.c \
+			error.c \
+			init/init_data.c \
+			init/init_mlx.c \
+			init/init_textures.c \
+			parsing/check_args.c \
+			parsing/parse_data.c \
+			parsing/get_file_data.c \
+			parsing/create_game_map.c \
+			parsing/check_textures.c \
+			parsing/check_map.c \
+			parsing/check_map_borders.c \
+			parsing/fill_color_textures.c \
+			parsing/parsing_utils.c \
+			movement/input_handler.c \
+			movement/player_dir.c \
+			movement/player_pos.c \
+			movement/player_move.c \
+			movement/player_rotate.c \
+			render/raycasting.c \
+			render/render.c \
+			render/texture.c \
+			render/image_utils.c \
+			render/minimap_render.c \
+			render/minimap_image.c \
+			exit/exit.c \
+			exit/free_data.c \
+			debug/debug.c
+SRCS	= $(addprefix $(SRC_PATH), $(SRC))
 
-# Object files
-OBJS = $(SRCS:.c=.o)
+# Objects
+OBJ_PATH	= ./objects/
+OBJ			= $(SRC:.c=.o)
+OBJS		= $(addprefix $(OBJ_PATH), $(OBJ))
 
-# Colors for output
-RED = \033[0;31m
-GREEN = \033[0;32m
-NC = \033[0m
+# Includes
+INC			=	-I ./includes/\
+				-I ./libft/\
+				-I ./minilibx-linux/
 
-all: $(MLX) $(LIBFT) $(NAME)
+# Main rule
+all: $(OBJ_PATH) $(MLX) $(LIBFT) $(NAME)
 
-# Rule for building the executable
+# Objects directory rule
+$(OBJ_PATH):
+	mkdir -p $(OBJ_PATH)
+	mkdir -p $(OBJ_PATH)/init
+	mkdir -p $(OBJ_PATH)/parsing
+	mkdir -p $(OBJ_PATH)/movement
+	mkdir -p $(OBJ_PATH)/render
+	mkdir -p $(OBJ_PATH)/debug
+	mkdir -p $(OBJ_PATH)/exit
+
+# Objects rule
+$(OBJ_PATH)%.o: $(SRC_PATH)%.c
+	$(CC) $(CFLAGS) -c $< -o $@ $(INC)
+
+# Project file rule
 $(NAME): $(OBJS)
-	@echo "$(GREEN)Building $(NAME)...$(NC)"
-	$(CC) $(OBJS) -o $(NAME) $(LIBFT) $(MLX_FLAGS)
-	@echo "$(GREEN)Build complete!$(NC)"
+	$(CC) $(CFLAGS) $(OBJS) -o $@ $(INC) $(LIBFT) $(MLX) -lXext -lX11 -lm
 
-# Rule for building object files
-%.o: %.c
-	$(CC) $(CFLAGS) -c $< -o $@
-
-# Rule for building MinilibX
-$(MLX):
-	@echo "$(GREEN)Building MinilibX...$(NC)"
-	@make -C $(MLX_DIR)
-
-# Rule for building libft
+# Libft rule
 $(LIBFT):
-	@echo "$(GREEN)Building libft...$(NC)"
-	@make -C $(LIBFT_DIR)
+	make -sC $(LIBFT_PATH)
 
+# MLX rule
+$(MLX):
+	make -sC $(MLX_PATH)
+
+# bonus:
+# 	make all BONUS=1
+
+# Clean up build files rule
 clean:
-	@echo "$(RED)Cleaning object files...$(NC)"
-	@rm -f $(OBJS)
-	@make -C $(LIBFT_DIR) clean
-	@make -C $(MLX_DIR) clean
+	rm -rf $(OBJ_PATH)
+	make -C $(LIBFT_PATH) clean
+	make -C $(MLX_PATH) clean
 
+# Remove program executable
 fclean: clean
-	@echo "$(RED)Cleaning executable and libraries...$(NC)"
-	@rm -f $(NAME)
-	@make -C $(LIBFT_DIR) fclean
-	@rm -f $(MLX_DIR)/libmlx.a
+	rm -f $(NAME)
+	make -C $(LIBFT_PATH) fclean
 
+# Clean + remove executable
 re: fclean all
 
-.PHONY: all clean fclean re
+.PHONY: all re clean fclean bonus
