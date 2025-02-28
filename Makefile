@@ -6,7 +6,7 @@
 #    By: baguiar- <baguiar-@student.42wolfsburg.    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/02/20 15:02:36 by dsamuel           #+#    #+#              #
-#    Updated: 2025/02/28 12:00:11 by baguiar-         ###   ########.fr        #
+#    Updated: 2025/02/28 12:25:26 by baguiar-         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -106,12 +106,15 @@ $(MLX): $(MLX_PATH)
 clean:
 	rm -rf $(OBJ_PATH)
 	make -C $(LIBFT_PATH) clean
-	make -C $(MLX_PATH) clean
+	@if [ -d "minilibx-linux" ]; then \
+		make -C $(MLX_PATH) clean; \
+	fi
+	
 
 # Remove program executable and minilibx-linux repository
 fclean: clean
 	rm -f $(NAME)
-	rm -rf $(MLX_PATH)  # Remove minilibx-linux repository
+	rm -rf $(MLX_PATH)
 	make -C $(LIBFT_PATH) fclean
 
 # Clean + remove executable
