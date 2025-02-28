@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   create_game_map.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dsamuel <dsamuel@student.42.fr>            +#+  +:+       +#+        */
+/*   By: baguiar- <baguiar-@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/09 22:29:30 by dsamuel           #+#    #+#             */
-/*   Updated: 2025/02/20 18:21:23 by dsamuel          ###   ########.fr       */
+/*   Updated: 2025/02/28 12:17:48 by baguiar-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ static int	fill_map_tab(t_mapinfo *mapinfo, char **map_tab, int index)
 		{
 			map_tab[i][j] = mapinfo->file[index][j];
 			j++;
-		}	
+		}
 		while (j < mapinfo->width)
 			map_tab[i][j++] = '\0';
 		i++;

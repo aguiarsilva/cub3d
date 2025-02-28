@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_file_data.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dsamuel <dsamuel@student.42.fr>            +#+  +:+       +#+        */
+/*   By: baguiar- <baguiar-@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/09 22:29:52 by dsamuel           #+#    #+#             */
-/*   Updated: 2025/02/20 18:21:32 by dsamuel          ###   ########.fr       */
+/*   Updated: 2025/02/28 12:18:12 by baguiar-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,13 +69,13 @@ static int	ignore_whitespaces_get_info(t_data *data, char **map, int i, int j)
 			if (fill_direction_textures(&data->texinfo, map[i], j) == ERR)
 				return (err_msg(data->mapinfo.path, ERR_TEX_INVALID, FAILURE));
 			return (BREAK);
-		}	
+		}
 		else
 		{
 			if (fill_color_textures(data, &data->texinfo, map[i], j) == ERR)
 				return (FAILURE);
 			return (BREAK);
-		}	
+		}
 	}
 	else if (ft_isdigit(map[i][j]))
 	{
