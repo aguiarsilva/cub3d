@@ -3,18 +3,14 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: dsamuel <dsamuel@student.42.fr>            +#+  +:+       +#+         #
+#    By: baguiar- <baguiar-@student.42wolfsburg.    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/02/20 15:02:36 by dsamuel           #+#    #+#              #
-#    Updated: 2025/02/20 18:24:54 by dsamuel          ###   ########.fr        #
+#    Updated: 2025/02/28 12:00:11 by baguiar-         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-# Program file name
 NAME	= cub3d
-
-# # Mode
-# BONUS = 0
 
 # Compiler and compilation flags
 CC		= gcc
@@ -75,6 +71,11 @@ INC			=	-I ./includes/\
 # Main rule
 all: $(OBJ_PATH) $(MLX) $(LIBFT) $(NAME)
 
+# Clone minilibx-linux repository if it doesn't exist
+$(MLX_PATH):
+	git clone https://github.com/42Paris/minilibx-linux.git minilibx-linux
+	git submodule update --init --recursive
+
 # Objects directory rule
 $(OBJ_PATH):
 	mkdir -p $(OBJ_PATH)
@@ -98,11 +99,8 @@ $(LIBFT):
 	make -sC $(LIBFT_PATH)
 
 # MLX rule
-$(MLX):
+$(MLX): $(MLX_PATH)
 	make -sC $(MLX_PATH)
-
-# bonus:
-# 	make all BONUS=1
 
 # Clean up build files rule
 clean:
@@ -110,9 +108,10 @@ clean:
 	make -C $(LIBFT_PATH) clean
 	make -C $(MLX_PATH) clean
 
-# Remove program executable
+# Remove program executable and minilibx-linux repository
 fclean: clean
 	rm -f $(NAME)
+	rm -rf $(MLX_PATH)  # Remove minilibx-linux repository
 	make -C $(LIBFT_PATH) fclean
 
 # Clean + remove executable
