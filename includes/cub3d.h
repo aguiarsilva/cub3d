@@ -27,10 +27,31 @@
 # define MOVE_SPEED 0.1
 # define ROTATION_SPEED 0.05
 
-// // Color definitions (optional) move to colour tools
-// # define BLACK 0x000000
-// # define WHITE 0xFFFFFF
-
+// Error messages
+# define ERR_USAGE "Usage: ./cub3d <path/to/map.cub>"
+# define ERR_FILE_NOT_CUB "Error: Not a .cub file"
+# define ERR_FILE_NOT_XPM "Error: Not an .xpm file"
+# define ERR_FILE_IS_DIR "Error: Is a directory"
+# define ERR_FLOOR_CEILING "Error: Invalid floor/ceiling RGB color(s)"
+# define ERR_COLOR_FLOOR "Error: Invalid floor RGB color"
+# define ERR_COLOR_CEILING "Error: Invalid ceiling RGB color"
+# define ERR_INVALID_MAP "Error: Map description is either wrong or incomplete"
+# define ERR_INV_LETTER "Error: Invalid character in map"
+# define ERR_NUM_PLAYER "Error: Map has more than one player"
+# define ERR_TEX_RGB_VAL "Error: Invalid RGB value (min: 0, max: 255)"
+# define ERR_TEX_MISSING "Error: Missing texture(s)"
+# define ERR_TEX_INVALID "Error: Invalid texture(s)"
+# define ERR_COLOR_MISSING "Error: Missing color(s)"
+# define ERR_MAP_MISSING "Error: Missing map"
+# define ERR_MAP_TOO_SMALL "Error: Map is not at least 3 lines high"
+# define ERR_MAP_NO_WALLS "Error: Map is not surrounded by walls"
+# define ERR_MAP_LAST "Error: Map is not the last element in file"
+# define ERR_PLAYER_POS "Error: Invalid player position"
+# define ERR_PLAYER_DIR "Error: Map has no player position (expected N, S, E or W)"
+# define ERR_MALLOC "Error: Could not allocate memory"
+# define ERR_MLX_START "Error: Could not start mlx"
+# define ERR_MLX_WIN "Error: Could not create mlx window"
+# define ERR_MLX_IMG "Error: Could not create mlx image"
 
 typedef struct s_img_data
 {
