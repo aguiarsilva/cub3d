@@ -155,4 +155,13 @@ typedef struct s_game_data
 // Function prototypes
 int ft_error_msg(char *arg, char *str, int code);
 
+//check_files.c
+int	validate_file_extension(char *file_path);
+int	is_valid_map_char(char c);
+int	validate_walls(char **map, int height, int width, int x, int y);
+int	is_valid_rgb(int r, int g, int b);
+int	is_valid_position(int x, int y, int height, int width);
+int	check_multiple_player(char **map, int height);
+int	find_player_pos(char **map, int height, int *x, int *y);
+
 #endif
