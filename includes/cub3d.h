@@ -45,7 +45,7 @@
 # define ERR_MAP_TOO_SMALL "Error: Map is not at least 3 lines high"
 # define ERR_MAP_NO_WALLS "Error: Map is not surrounded by walls"
 # define ERR_MAP_LAST "Error: Map is not the last element in file"
-# define ERR_PLAYER_POS "Error: Invalid player position"
+# define ERR_PLAYER_POS "Error\nNo player position found"
 # define ERR_PLAYER_DIR "Error: Map has no player position (expected N, S, E or W)"
 # define ERR_MALLOC "Error: Could not allocate memory"
 # define ERR_MLX_START "Error: Could not start mlx"
