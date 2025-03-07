@@ -4,7 +4,6 @@
 # include <stdlib.h>
 # include <unistd.h>
 # include <fcntl.h>
-# include <math.h>
 # include <errno.h>
 # include <math.h>
 # include <stdbool.h>
@@ -15,7 +14,7 @@
 # include <X11/keysym.h>
 # include <X11/X.h>
 
-# include "libft.h"
+# include "inc/libft.h"
 # include "mlx.h"
 # include "color_tools.h"
 
@@ -29,7 +28,7 @@
 
 // Error messages
 # define ERR_USAGE "Usage: ./cub3d <path/to/map.cub>"
-# define ERR_FILE_NOT_CUB "Error: Not a .cub file"
+# define ERR_FILE_NOT_CUB "Error\nInvalid file extension. Must be .cub"
 # define ERR_FILE_NOT_XPM "Error: Not an .xpm file"
 # define ERR_FILE_IS_DIR "Error: Is a directory"
 # define ERR_FLOOR_CEILING "Error: Invalid floor/ceiling RGB color(s)"
@@ -37,7 +36,7 @@
 # define ERR_COLOR_CEILING "Error: Invalid ceiling RGB color"
 # define ERR_INVALID_MAP "Error: Map description is either wrong or incomplete"
 # define ERR_INV_LETTER "Error: Invalid character in map"
-# define ERR_NUM_PLAYER "Error: Map has more than one player"
+# define ERR_NUM_PLAYER "Error\nMultiple player positions found"
 # define ERR_TEX_RGB_VAL "Error: Invalid RGB value (min: 0, max: 255)"
 # define ERR_TEX_MISSING "Error: Missing texture(s)"
 # define ERR_TEX_INVALID "Error: Invalid texture(s)"
