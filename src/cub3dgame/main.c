@@ -6,7 +6,7 @@
 /*   By: dsamuel <dsamuel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/05 15:33:07 by dsamuel           #+#    #+#             */
-/*   Updated: 2025/03/05 21:19:09 by dsamuel          ###   ########.fr       */
+/*   Updated: 2025/03/10 15:50:39 by dsamuel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,26 +52,31 @@ void	init_ray(t_ray *ray)
 	// ray->wall_x = 0;
 }
 
-// void	ft_initialize_map_data(t_map_data *map_data)
-// {
-// 	map_data->fd = 0;
-// 	map_data->line_count = 0;
-// 	map_data->path = NULL;
-// 	map_data->file = NULL;
-// 	map_data->map_height = 0;
-// 	map_data->map_width = 0;
-// 	map_data->end_found = 0;
-// }
+void	ft_initialize_map_data(t_map_data *map_data)
+{
+	map_data->fd = 0;
+	map_data->line_count = 0;
+	map_data->path = NULL;
+	map_data->file = NULL;
+	map_data->map_height = 0;
+	map_data->map_width = 0;
+	map_data->end_found = 0;
+}
 
-// void	ft_initialize_player(t_player *player)
-// {
-// 	player->dir_x = 0.0;
-//     player->dir_y = 0.0;
-//     player->plane_x = 0.0;
-//     player->plane_y = 0.0;
-//     player->x_pos = 0.0;
-//     player->x_pos = 0.0;
-// }
+void	ft_initialize_player(t_player *player)
+{
+	player->dir_x = 0.0;
+    player->dir_y = 0.0;
+    player->plane_x = 0.0;
+    player->plane_y = 0.0;
+    player->x_pos = 0.0;
+    player->x_pos = 0.0;
+    player->movement.direction = '\0';
+    player->movement.moved = 0;
+    player->movement.move_x = 0;
+    player->movement.move_y = 0;
+    player->movement.rotate = 0;
+}
 
 void	ft_initialize_data(t_game_data *game_data)
 {
@@ -79,10 +84,11 @@ void	ft_initialize_data(t_game_data *game_data)
 	game_data->win = NULL;
 	game_data->win_height = SCREEN_HEIGHT;
 	game_data->win_width = SCREEN_WIDTH;
-	// ft_initialize_player(&game_data->player);
-	// game_data->map = NULL;
+	game_data->map = NULL;
 	// game_data->texture_pixels = NULL;
 	// game_data->textures = NULL;
+	ft_initialize_player(&game_data->player);
+    ft_initialize_map_data(&game_data->map_data);
 }
 
 int render(t_game_data *game_data)
@@ -121,6 +127,15 @@ void ft_initialize_mlx_screen(t_game_data *game_data)
     // implement more feature here just basic starte
 }
 
+int ft_parse_arguments(t_game_data *game_data, char **argv)
+{
+    if (ft_file_checker(argv[1], true) == STATUS_FAIL)
+        ft_clean_and_quit(game_data, STATUS_FAIL);
+    
+    
+}
+
+
 int main(int argc, char **argv)
 {
     t_game_data game_data;
@@ -131,6 +146,8 @@ int main(int argc, char **argv)
 
     ft_initialize_data(&game_data);
     // parse input argument implementation here
+    if (ft_parse_arguments(&game_data, argv) != 0)
+        return (1);
 
     // Initialize game data and start the game loop here
     ft_initialize_mlx_screen(&game_data);
