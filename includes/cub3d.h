@@ -184,8 +184,15 @@ typedef struct s_game_data
 int ft_error_msg(char *arg, char *str, int code);
 int ft_file_checker(char *arg, bool cub_file);
 int ft_validate_map(t_game_data *game_data, char **map_table);
+int ft_validate_textures_map(t_game_data *game_data, t_texture_data *textures);
+void ft_parse_data(char *path, t_game_data *game_data);
 
 // Free Functions
 int ft_free_game_data(t_game_data *game_data);
+void ft_free_table(void **table);
+
+//utils
+int ft_fill_color_textures(t_game_data *game_data, t_texture_data *textures, char *line, int j);
+
 
 #endif
