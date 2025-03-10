@@ -77,3 +77,34 @@ int ft_validate_map(t_game_data *game_data, char **map_table)
 
     return STATUS_OK;
 }
+
+// validate texture function
+
+int	ft_validate_and_convert_rgb(int *rgb, unsigned long *hex_value)
+{
+	int i;
+
+	for (i = 0; i < 3; i++)
+	{
+		if (rgb[i] < 0 || rgb[i] > 255)
+			return (err_msg_val(rgb[i], ERR_TEX_RGB_VAL, STATUS_FAIL));
+	}
+	*hex_value = ((rgb[0] & 0xff) << 16) + ((rgb[1] & 0xff) << 8) + (rgb[2] & 0xff);
+	return (STATUS_OK);
+}
+
+int ft_validate_textures_map(t_game_data *game_data, t_texture_data *textures)
+{
+	if (!textures->texture_config.no_texture_path || !textures->texture_config.so_texture_path || !textures->texture_config.we_texture_path || !textures->texture_config.ea_texture_path)
+		return (err_msg(game_data->map_data.path, ERR_TEX_MISSING, STATUS_FAIL));
+	if (!textures->hex_floor || !textures->hex_ceiling)
+		return (err_msg(game_data->map_data.path, ERR_COLOR_MISSING, STATUS_FAIL));
+	if (ft_file_checker(textures->texture_config.no_texture_path, false) == STATUS_FAIL
+		|| ft_file_checker(textures->texture_config.so_texture_path, false) == STATUS_FAIL
+		|| ft_file_checker(textures->texture_config.we_texture_path, false) == STATUS_FAIL
+		|| ft_file_checker(textures->texture_config.ea_texture_path, false) == STATUS_FAIL
+		|| ft_validate_and_convert_rgb(textures->hex_floor, &textures->hex_floor) == STATUS_FAIL
+		|| ft_validate_and_convert_rgb(textures->hex_ceiling, &textures->hex_ceiling) == STATUS_FAIL)
+		return (STATUS_FAIL);
+	return (STATUS_OK);
+}
