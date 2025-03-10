@@ -6,7 +6,7 @@
 /*   By: dsamuel <dsamuel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/05 15:33:07 by dsamuel           #+#    #+#             */
-/*   Updated: 2025/03/10 15:50:39 by dsamuel          ###   ########.fr       */
+/*   Updated: 2025/03/10 16:59:22 by dsamuel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,27 +105,46 @@ int render(t_game_data *game_data)
     return 0;
 }
 
+//move to utils files in utils/utils.c
+void ft_clean_and_exit(t_game_data *game_data, int exit_code)
+{
+    if (!game_data)
+        exit(exit_code);
+    if (game_data->win && game_data->mlx)
+        mlx_destroy_window(game_data->mlx, game_data->win);
+    if (game_data->mlx)
+    {
+        mlx_destroy_display(game_data->mlx);
+        mlx_loop_end(game_data->mlx);
+        free(game_data->mlx);
+    }
+    ft_free_game_data(game_data);
+    exit(exit_code);
+}
+
+
 // initialize screen and handle basic events as describe in this milestone
 void ft_initialize_mlx_screen(t_game_data *game_data)
 {
     game_data->mlx = mlx_init();
     if (!game_data->mlx)
     {
-        printf("did not work");
-        exit(1);
+        // printf("did not work");
+        // exit(1);
         // implement clean and exit function
-        // ft_clean_and_exit(game_data, ft_error_msg("NULL", ERR_MLX_START, 1));
+        ft_clean_and_exit(game_data, ft_error_msg("NULL", ERR_MLX_START, 1));
     }
     game_data->win = mlx_new_window(game_data->mlx, SCREEN_WIDTH, SCREEN_HEIGHT, "cub3d");
-    if (!game_data->mlx)
+    if (!game_data->win)
     {
-        printf("window did start");
-        exit(1);
+        // printf("window did start");
+        // exit(1);
         // implement clean and exit function
-        // ft_clean_and_exit(game_data, ft_error_msg("NULL", ERR_MLX_WIN, 1));
+        ft_clean_and_exit(game_data, ft_error_msg("NULL", ERR_MLX_WIN, 1));
     }
-    // implement more feature here just basic starte
+    // implement more feature here just basic start
 }
+
 
 int ft_parse_arguments(t_game_data *game_data, char **argv)
 {
