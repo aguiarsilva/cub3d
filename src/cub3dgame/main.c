@@ -6,7 +6,7 @@
 /*   By: dsamuel <dsamuel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/05 15:33:07 by dsamuel           #+#    #+#             */
-/*   Updated: 2025/03/10 16:59:22 by dsamuel          ###   ########.fr       */
+/*   Updated: 2025/03/10 18:48:06 by dsamuel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -149,8 +149,22 @@ void ft_initialize_mlx_screen(t_game_data *game_data)
 int ft_parse_arguments(t_game_data *game_data, char **argv)
 {
     if (ft_file_checker(argv[1], true) == STATUS_FAIL)
-        ft_clean_and_quit(game_data, STATUS_FAIL);
+        ft_clean_and_exit(game_data, STATUS_FAIL);
+
+    //parse map data
+    ft_parse_data(argv[1], game_data);
     
+    if (ft_validate_map(game_data, game_data->map) == STATUS_FAIL)
+        return (ft_free_game_data(game_data));
+    // get the data from different files both maps and textures
+    if (ft_get_file_data(game_data, game_data->map_data.file) == STATUS_FAIL)
+		return (ft_free_game_data(game_data));
+    if (ft_validate_textures_map(game_data, &game_data->texture_data) == STATUS_FAIL)
+        return (ft_free_game_data(game_data));
+
+    // initialize player direction ... to be implemented
+    
+    return (0);
     
 }
 
@@ -159,7 +173,6 @@ int main(int argc, char **argv)
 {
     t_game_data game_data;
     
-    (void)argv;
     if (argc != 2)
         return (ft_error_msg(NULL, ERR_USAGE, 1));
 
