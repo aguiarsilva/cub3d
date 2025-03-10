@@ -1,0 +1,79 @@
+#include "cub3d.h"
+
+
+// need to refactor and convert to while loop also need to fix norm errors
+
+
+int ft_validate_map(t_game_data *game_data, char **map_table)
+{
+    int i, j;
+
+    // Check if the map is missing
+    if (!game_data->map)
+        return ft_error_msg(game_data->map_data.path, ERR_MAP_MISSING, STATUS_FAIL);
+
+    // Check top and bottom borders
+    for (i = 0; map_table[i]; i++)
+    {
+        for (j = 0; map_table[i][j]; j++)
+        {
+            if (i == 0 || i == game_data->map_data.map_height - 1)
+            {
+                if (map_table[i][j] != '1' && map_table[i][j] != ' ' && map_table[i][j] != '\t' && map_table[i][j] != '\r' && map_table[i][j] != '\v' && map_table[i][j] != '\f')
+                    return ft_error_msg(game_data->map_data.path, ERR_MAP_NO_WALLS, STATUS_FAIL);
+            }
+        }
+    }
+
+    // Check side borders
+    for (i = 1; i < game_data->map_data.map_height - 1; i++)
+    {
+        if (map_table[i][0] != '1' || map_table[i][ft_strlen(map_table[i]) - 1] != '1')
+            return ft_error_msg(game_data->map_data.path, ERR_MAP_NO_WALLS, STATUS_FAIL);
+    }
+
+    // Check map height
+    if (game_data->map_data.map_height < 3)
+        return ft_error_msg(game_data->map_data.path, ERR_MAP_TOO_SMALL, STATUS_FAIL);
+
+    // Check map elements and player position
+    game_data->player.movement.direction = '0';
+    for (i = 0; map_table[i]; i++)
+    {
+        for (j = 0; map_table[i][j]; j++)
+        {
+            if (ft_strchr("10NSEW", map_table[i][j]) == NULL)
+                return ft_error_msg(game_data->map_data.path, ERR_INV_LETTER, STATUS_FAIL);
+
+            if (ft_strchr("NSEW", map_table[i][j]))
+            {
+                if (game_data->player.movement.direction != '0')
+                    return ft_error_msg(game_data->map_data.path, ERR_NUM_PLAYER, STATUS_FAIL);
+                game_data->player.movement.direction = map_table[i][j];
+                game_data->player.x_pos = (double)j + 0.5;
+                game_data->player.y_pos = (double)i + 0.5;
+                map_table[i][j] = '0';
+            }
+        }
+    }
+
+    // Check player position validity
+    i = (int)game_data->player.y_pos;
+    j = (int)game_data->player.x_pos;
+    if (ft_strlen(map_table[i - 1]) < (size_t)j || ft_strlen(map_table[i + 1]) < (size_t)j ||
+        ft_confirm_white_space(map_table[i][j - 1]) == STATUS_OK || ft_confirm_white_space(map_table[i][j + 1]) == STATUS_OK ||
+        ft_confirm_white_space(map_table[i - 1][j]) == STATUS_OK || ft_confirm_white_space(map_table[i + 1][j]) == STATUS_OK)
+        return ft_error_msg(game_data->map_data.path, ERR_PLAYER_POS, STATUS_FAIL);
+
+    // Check for map end
+    for (i = game_data->map_data.end_found; map_table[i]; i++)
+    {
+        for (j = 0; map_table[i][j]; j++)
+        {
+            if (map_table[i][j] != ' ' && map_table[i][j] != '\t' && map_table[i][j] != '\r' && map_table[i][j] != '\n' && map_table[i][j] != '\v' && map_table[i][j] != '\f')
+                return ft_error_msg(game_data->map_data.path, ERR_MAP_LAST, STATUS_FAIL);
+        }
+    }
+
+    return STATUS_OK;
+}
