@@ -96,9 +96,9 @@ int	ft_validate_and_convert_rgb(int *rgb, unsigned long *hex_value)
 int ft_validate_textures_map(t_game_data *game_data, t_texture_data *textures)
 {
 	if (!textures->texture_config.no_texture_path || !textures->texture_config.so_texture_path || !textures->texture_config.we_texture_path || !textures->texture_config.ea_texture_path)
-		return (err_msg(game_data->map_data.path, ERR_TEX_MISSING, STATUS_FAIL));
+		return (ft_error_msg(game_data->map_data.path, ERR_TEX_MISSING, STATUS_FAIL));
 	if (!textures->hex_floor || !textures->hex_ceiling)
-		return (err_msg(game_data->map_data.path, ERR_COLOR_MISSING, STATUS_FAIL));
+		return (ft_error_msg(game_data->map_data.path, ERR_COLOR_MISSING, STATUS_FAIL));
 	if (ft_file_checker(textures->texture_config.no_texture_path, false) == STATUS_FAIL
 		|| ft_file_checker(textures->texture_config.so_texture_path, false) == STATUS_FAIL
 		|| ft_file_checker(textures->texture_config.we_texture_path, false) == STATUS_FAIL
