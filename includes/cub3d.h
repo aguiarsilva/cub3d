@@ -62,6 +62,23 @@ typedef struct s_img_data
 	void	*img;
 }	t_img_data;
 
+typedef enum e_status
+{
+    STATUS_OK = 0,
+    STATUS_FAIL = 1,
+    STATUS_ERROR = 2,
+    STATUS_BREAK = 3,
+    STATUS_CONTINUE = 4
+}	t_status;
+
+typedef enum e_direction
+{
+    DIR_NORTH = 0,
+    DIR_SOUTH = 1,
+    DIR_EAST = 2,
+    DIR_WEST = 3
+}	t_direction;
+
 typedef struct s_minimap
 {
     int		    size;
@@ -107,6 +124,15 @@ typedef struct s_texture_data
     t_config        texture_config;
 }	t_texture_data;
 
+typedef struct s_movement
+{
+    int     moved;
+    int     move_x;
+    int     move_y;
+    int     rotate;
+    char    direction;
+}               t_movement;
+
 // Player structure
 typedef struct s_player {
     double	x_pos;
@@ -115,7 +141,8 @@ typedef struct s_player {
     double	dir_y;
     double	plane_x;
     double	plane_y;
-}	t_player;
+    t_movement movement;
+}	            t_player;
 
 // Raycasting data structure
 typedef struct s_ray {
@@ -149,11 +176,16 @@ typedef struct s_game_data
 	t_player	    player;
 	t_ray		    ray;
 	t_texture_data  texture_data;
-	t_map_data	    mapinfo;
-	t_img_data		minimap;
+	t_map_data	    map_data;
+	t_img_data		mini_map;
 }	          t_game_data;
 
 // Function prototypes
 int ft_error_msg(char *arg, char *str, int code);
+int ft_file_checker(char *arg, bool cub_file);
+int ft_validate_map(t_game_data *game_data, char **map_table);
+
+// Free Functions
+int ft_free_game_data(t_game_data *game_data);
 
 #endif
