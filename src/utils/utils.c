@@ -1,6 +1,22 @@
 #include "cub3d.h"
 
 
+static bool	ft_str_isdigit(char *str)
+{
+	int		i;
+	bool	found_no_digit;
+
+	i = 0;
+	found_no_digit = true;
+	while (str[i])
+	{
+		if (ft_isdigit(str[i]) == 1)
+			found_no_digit = false;
+		i++;
+	}
+	return (found_no_digit);
+}
+
 static int *ft_parse_rgb_values(char *line)
 {
 	char **rgb_to_convert;
@@ -46,19 +62,42 @@ int ft_fill_color_textures(t_game_data *game_data, t_texture_data *textures, cha
 {
 	if (line[j + 1] && ft_isprint(line[j + 1]))
 		return (ft_error_msg(game_data->map_data.path, ERR_FLOOR_CEILING, STATUS_ERROR));
-	if (!textures->hex_ceiling && line[j] == 'C')
+	if (!textures->texture_config.ceiling_color && line[j] == 'C')
 	{
-		textures->hex_ceiling = ft_parse_rgb_values(line + j + 1);
-		if (!textures->hex_ceiling)
+		textures->texture_config.ceiling_color = ft_parse_rgb_values(line + j + 1);
+		if (!textures->texture_config.ceiling_color)
 			return (ft_error_msg(game_data->map_data.path, ERR_COLOR_CEILING, STATUS_ERROR));
 	}
-	else if (!textures->hex_floor && line[j] == 'F')
+	else if (!textures->texture_config.floor_color && line[j] == 'F')
 	{
-		textures->hex_floor = ft_parse_rgb_values(line + j + 1);
-		if (!textures->hex_floor)
+		textures->texture_config.floor_color = ft_parse_rgb_values(line + j + 1);
+		if (!textures->texture_config.floor_color)
 			return (ft_error_msg(game_data->map_data.path, ERR_COLOR_FLOOR, STATUS_ERROR));
 	}
 	else
 		return (ft_error_msg(game_data->map_data.path, ERR_FLOOR_CEILING, STATUS_ERROR));
 	return (STATUS_OK);
+}
+
+int	ft_confirm_white_space(char c)
+{
+	if (c != ' ' && c != '\t' && c != '\r'
+		&& c != '\n' && c != '\v' && c != '\f')
+		return (STATUS_FAIL);
+	else
+		return (STATUS_OK);
+}
+
+size_t	ft_find_biggest_len(t_map_data *map, int i)
+{
+	size_t	biggest_len;
+
+	biggest_len = ft_strlen(map->file[i]);
+	while (map->file[i])
+	{
+		if (ft_strlen(map->file[i]) > biggest_len)
+			biggest_len = ft_strlen(map->file[i]);
+		i++;
+	}
+	return (biggest_len);
 }
