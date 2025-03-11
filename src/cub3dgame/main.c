@@ -29,6 +29,20 @@ int ft_error_msg(char *arg, char *str, int er_code)
     return er_code;
 }
 
+//free map
+void	free_map(char **map)
+{
+	int	i;
+
+	i = 0;
+	while (map[i])
+	{
+		free(map[i]);
+		i++;
+	}
+	free (map);
+}
+
 // initialization functions
 
 void	init_ray(t_ray *ray)
