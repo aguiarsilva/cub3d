@@ -11,7 +11,7 @@ int ft_file_checker(char *arg, bool cub_file)
 {
     int fd;
     size_t len;
-    bool is_dir = false;
+    // bool is_dir = false;
 
     // Check if the argument is a directory
     fd = open(arg, O_DIRECTORY);

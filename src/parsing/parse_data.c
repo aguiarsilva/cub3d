@@ -13,7 +13,7 @@ void ft_parse_data(char *path, t_game_data *game_data)
     fd = open(path, O_RDONLY);
     if (fd < 0)
     {
-        err_msg(path, strerror(errno), errno);
+        ft_error_msg(path, strerror(errno), errno);
         return;
     }
     line = get_next_line(fd);

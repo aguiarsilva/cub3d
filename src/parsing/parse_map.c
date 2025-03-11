@@ -50,7 +50,7 @@ static int ft_process_texture_info(t_texture_data *textures, char *line, int j)
 
 int ft_get_file_data(t_game_data *game_data, char **map)
 {
-	int i, j, ret;
+	int i, j;
 	i = 0;
 	while (map[i])
 	{
@@ -63,21 +63,21 @@ int ft_get_file_data(t_game_data *game_data, char **map)
 			{
 				if (map[i][j + 1] && ft_isprint(map[i][j + 1]) && !ft_isdigit(map[i][j]))
 				{
-					if (process_texture_info(&game_data->texture_data, map[i], j) == STATUS_ERROR)
-						return (err_msg(game_data->map_data.path, ERR_TEX_INVALID, STATUS_FAIL));
+					if (ft_process_texture_info(&game_data->texture_data, map[i], j) == STATUS_ERROR)
+						return (ft_error_msg(game_data->map_data.path, ERR_TEX_INVALID, STATUS_FAIL));
 					break;
 				}
 				else
 				{
-					if (fill_color_textures(game_data, &game_data->texture_data, map[i], j) == STATUS_ERROR)
+					if (ft_fill_color_textures(game_data, &game_data->texture_data, map[i], j) == STATUS_ERROR)
 						return (STATUS_FAIL);
 					break;
 				}
 			}
 			else if (ft_isdigit(map[i][j]))
 			{
-				if (create_map(game_data, map, i) == STATUS_FAIL)
-					return (err_msg(game_data->map_data.path, ERR_INVALID_MAP, STATUS_FAIL));
+				if (ft_build_map(game_data, map, i) == STATUS_FAIL)
+					return (ft_error_msg(game_data->map_data.path, ERR_INVALID_MAP, STATUS_FAIL));
 				return (STATUS_OK);
 			}
 			j++;
