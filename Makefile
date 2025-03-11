@@ -6,7 +6,7 @@
 #    By: dsamuel <dsamuel@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/02/20 15:02:36 by dsamuel           #+#    #+#              #
-#    Updated: 2025/03/05 15:32:38 by dsamuel          ###   ########.fr        #
+#    Updated: 2025/03/11 10:32:49 by dsamuel          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -31,7 +31,7 @@ SRC_PATH = ./src/
 SRC		= 	cub3dgame/main.c \
             debugtools/debug.c debugtools/debug_utils.c \
             initialization/init_data.c initialization/init_mlx.c initialization/init_textures.c initialization/init_player.c \
-            parsing/check_file.c parsing/parse_data.c parsing/parse_map.c parsing/validate_map.c \
+            parsing/build_map.c parsing/check_file.c parsing/parse_data.c parsing/parse_map.c parsing/validate_map.c \
             player/collision_detection.c player/player_movement.c player/player_rotation.c \
             rendering/raycasting.c rendering/render_minimap.c rendering/render_textures.c rendering/render.c \
             utils/error_handling.c utils/memory_management.c utils/utils.c
