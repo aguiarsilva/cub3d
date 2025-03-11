@@ -34,7 +34,7 @@
 # define ERR_FLOOR_CEILING "Error: Invalid floor/ceiling RGB color(s)"
 # define ERR_COLOR_FLOOR "Error: Invalid floor RGB color"
 # define ERR_COLOR_CEILING "Error: Invalid ceiling RGB color"
-# define ERR_INVALID_MAP "Error: Map description is either wrong or incomplete"
+# define ERR_INV_MAP "Error\nInvalid map or configuration"
 # define ERR_INV_LETTER "Error: Invalid character in map"
 # define ERR_NUM_PLAYER "Error\nMultiple player positions found"
 # define ERR_TEX_RGB_VAL "Error: Invalid RGB value (min: 0, max: 255)"
@@ -163,5 +163,15 @@ int	is_valid_rgb(int r, int g, int b);
 int	is_valid_position(int x, int y, int height, int width);
 int	check_multiple_player(char **map, int height);
 int	find_player_pos(char **map, int height, int *x, int *y);
+
+//parse_map.c
+int	read_map_line(int fd, char **line);
+void	sanitize_map_line(char *line);
+int	process_config_map_or_map(t_game *game, char *line, int *in_map);
+int	validate_map_after_parsing(t_game *game);
+int	parse_map(t_game *game, char *file_path);
+
+
+
 
 #endif
