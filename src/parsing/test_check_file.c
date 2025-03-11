@@ -19,7 +19,19 @@ int get_map_height(char **map)
 	return count;
 }
 
-int get_map
+int get_map_width(char **map)
+{
+	int max_width = 0;
+	int i = 0;
+	while (map[i])
+	{
+		int len = ft_strlen(map[i]);
+		if (len > max_width)
+			max_width = len;
+		i++;
+	}
+	return max_width;
+}
 
 int main(int argc, char **argv)
 {
