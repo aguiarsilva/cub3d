@@ -103,9 +103,8 @@ typedef struct s_map_data
 
 
 typedef struct s_config {
-    int		floor_color;
-    int		ceiling_color;
-    int		config_found;  // Bitwise flag to track found elements
+    int		*floor_color;
+    int		*ceiling_color;
     char	*no_texture_path;
     char	*so_texture_path;
     char	*we_texture_path;
@@ -117,6 +116,7 @@ typedef struct s_texture_data
     int				size;
 	int				x_dir;
 	int				y_dir;
+    int             config_found;
     unsigned long	hex_floor;
 	unsigned long	hex_ceiling;
 	double			step;
@@ -182,10 +182,14 @@ typedef struct s_game_data
 
 // Function prototypes
 int ft_error_msg(char *arg, char *str, int code);
+
+int	ft_error_val(int arg, char *str, int er_code);
 int ft_file_checker(char *arg, bool cub_file);
 int ft_validate_map(t_game_data *game_data, char **map_table);
 int ft_validate_textures_map(t_game_data *game_data, t_texture_data *textures);
 void ft_parse_data(char *path, t_game_data *game_data);
+int ft_get_file_data(t_game_data *game_data, char **map);
+int ft_build_map(t_game_data *game_data, char **file, int i);
 
 // Free Functions
 int ft_free_game_data(t_game_data *game_data);
@@ -194,5 +198,8 @@ void ft_free_table(void **table);
 //utils
 int ft_fill_color_textures(t_game_data *game_data, t_texture_data *textures, char *line, int j);
 
+int	ft_confirm_white_space(char c);
+
+size_t	ft_find_biggest_len(t_map_data *map, int i);
 
 #endif
