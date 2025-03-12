@@ -23,6 +23,9 @@
 # define SCREEN_WIDTH 1280
 # define SCREEN_HEIGHT 720
 
+// Texture size
+# define TEXTURE_SIZE 64
+
 // Movement and rotation speeds
 # define MOVE_SPEED 0.1
 # define ROTATION_SPEED 0.05
@@ -177,29 +180,31 @@ typedef struct s_game_data
 	t_ray		    ray;
 	t_texture_data  texture_data;
 	t_map_data	    map_data;
-	t_img_data		mini_map;
+	// t_img_data		mini_map;
 }	          t_game_data;
 
 // Function prototypes
 int ft_error_msg(char *arg, char *str, int code);
 
 int	ft_error_val(int arg, char *str, int er_code);
-int ft_file_checker(char *arg, bool cub_file);
+int	ft_file_and_dir_checker(char *arg, bool cub_file);
 int ft_validate_map(t_game_data *game_data, char **map_table);
 int ft_validate_textures_map(t_game_data *game_data, t_texture_data *textures);
-void ft_parse_data(char *path, t_game_data *game_data);
-int ft_get_file_data(t_game_data *game_data, char **map);
+void ft_parse_game_data(char *path, t_game_data *game_data);
+int	ft_get_gamefiles_data(t_game_data *game_data, char **map);
 int ft_build_map(t_game_data *game_data, char **file, int i);
 
 // Free Functions
-int ft_free_game_data(t_game_data *game_data);
 void ft_free_table(void **table);
+//free all textures data
+void ft_free_texture_data(t_texture_data *textures);
+void ft_free_map_table(t_game_data *game_data);
+int ft_free_game_data(t_game_data *game_data);
 
 //utils
-int ft_fill_color_textures(t_game_data *game_data, t_texture_data *textures, char *line, int j);
+int	ft_fill_rgb_color(t_game_data *game_data, t_texture_data *textures, char *line, int j);
 
-int	ft_confirm_white_space(char c);
-
-size_t	ft_find_biggest_len(t_map_data *map, int i);
+int	   ft_empty_char(char c);
+size_t	ft_max_width(t_map_data *map_data, int i);
 
 #endif

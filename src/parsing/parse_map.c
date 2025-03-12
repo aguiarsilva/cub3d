@@ -148,7 +148,7 @@ int	ft_handle_space_get_data(t_game_data *game_data, char **map, int i, int j)
 		}	
 		else
 		{
-			if (ft_fill_color(game_data, &game_data->texture_data, map[i], j) == STATUS_ERROR)
+			if (ft_fill_rgb_color(game_data, &game_data->texture_data, map[i], j) == STATUS_ERROR)
 				return (STATUS_FAIL);
 			return (STATUS_BREAK);
 		}	
