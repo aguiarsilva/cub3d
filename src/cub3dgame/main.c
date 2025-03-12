@@ -6,11 +6,14 @@
 /*   By: dsamuel <dsamuel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/05 15:33:07 by dsamuel           #+#    #+#             */
-/*   Updated: 2025/03/11 11:40:02 by dsamuel          ###   ########.fr       */
+/*   Updated: 2025/03/12 18:22:23 by dsamuel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
+
+
+//can be refactored and moved to error_handling files
 
 int ft_error_msg(char *arg, char *str, int er_code)
 {
@@ -40,9 +43,49 @@ int	ft_error_val(int arg, char *str, int er_code)
 }
 
 
-// initialization functions
+//move to utils folder under a file
+void ft_clean_and_exit(t_game_data *game_data, int exit_code)
+{
+    if (!game_data)
+        exit(exit_code);
+    if (game_data->win && game_data->mlx)
+        mlx_destroy_window(game_data->mlx, game_data->win);
+    if (game_data->mlx)
+    {
+        mlx_destroy_display(game_data->mlx);
+        mlx_loop_end(game_data->mlx);
+        free(game_data->mlx);
+    }
+    ft_free_game_data(game_data);
+    exit(exit_code);
+}
 
-void	init_ray(t_ray *ray)
+// int ft_exit_game(t_game_data *game_data)
+// {
+//     ft_clean_and_exit(game_data, STATUS_OK);
+//     return (STATUS_OK);
+// }
+
+int ft_exit_game(t_game_data *game_data)
+{
+    ft_clean_and_exit(game_data, 0);
+    return (0);
+}
+
+
+// initialization functions
+// need to be refactored and moved to the apprropraite inititalziation folder
+//Initilize image data function
+void	ft_initialize_img_data(t_img_data *image)
+{
+	image->img = NULL;
+	image->addr = NULL;
+	image->pixel_bits = 0;
+	image->size_line = 0;
+	image->endian = 0;
+}
+
+void	ft_initialize_ray_data(t_ray *ray)
 {
 	ray->camera_x = 0;
 	ray->ray_dir_x = 0;
@@ -74,7 +117,9 @@ void	ft_initialize_map_data(t_map_data *map_data)
 	map_data->end_found = 0;
 }
 
-void	ft_initialize_player(t_player *player)
+
+//need to be refactored and moved to the appropriate initialization folder
+void	ft_initialize_player_data(t_player *player)
 {
 	player->dir_x = 0.0;
     player->dir_y = 0.0;
@@ -89,6 +134,96 @@ void	ft_initialize_player(t_player *player)
     player->movement.rotate = 0;
 }
 
+
+
+//move mlx initaizlization folder files
+
+
+void	ft_initialize_image(t_game_data *game_data, t_img_data *image, int width, int height)
+{
+	ft_initialize_img_data(image);
+	image->img = mlx_new_image(game_data->mlx, width, height);
+	if (image->img == NULL)
+		ft_clean_and_exit(game_data, ft_error_msg(NULL, ERR_MLX_IMG, 1));
+	image->addr = (int *)mlx_get_data_addr(image->img, &image->pixel_bits,
+			&image->size_line, &image->endian);
+	return ;
+}
+
+void	ft_initialize_texture_img(t_game_data *game_data, t_img_data *image, char *path)
+{
+	ft_initialize_img_data(image);
+	image->img = mlx_xpm_file_to_image(game_data->mlx, path, &game_data->texture_data.size,
+			&game_data->texture_data.size);
+	if (image->img == NULL)
+		ft_clean_and_exit(game_data, ft_error_msg(NULL, ERR_MLX_IMG, 1));
+	image->addr = (int *)mlx_get_data_addr(image->img, &image->pixel_bits,
+			&image->size_line, &image->endian);
+	return ;
+}
+
+
+int	*ft_convert_xpm_to_img(t_game_data *game_data, char *path)
+{
+	int		x;
+	int		y;
+    int		*buffer;
+	t_img_data	tmp;
+
+	ft_initialize_texture_img(game_data, &tmp, path);
+	buffer = ft_calloc(1,
+			sizeof * buffer * game_data->texture_data.size * game_data->texture_data.size);
+	if (!buffer)
+		ft_clean_and_exit(game_data, ft_error_msg(NULL, ERR_MALLOC, 1));
+	y = 0;
+	while (y < game_data->texture_data.size)
+	{
+		x = 0;
+		while (x < game_data->texture_data.size)
+		{
+			buffer[y * game_data->texture_data.size + x]
+				= tmp.addr[y * game_data->texture_data.size + x];
+			++x;
+		}
+		y++;
+	}
+	mlx_destroy_image(game_data->mlx, tmp.img);
+	return (buffer);
+}
+
+void	ft_initialize_textures(t_game_data *game_data)
+{
+	game_data->textures = ft_calloc(5, sizeof * game_data->textures);
+	if (!game_data->textures)
+		ft_clean_and_exit(game_data, ft_error_msg(NULL, ERR_MALLOC, 1));
+	game_data->textures[DIR_NORTH] = ft_convert_xpm_to_img(game_data, game_data->texture_data.texture_config.no_texture_path);
+	game_data->textures[DIR_SOUTH] = ft_convert_xpm_to_img(game_data, game_data->texture_data.texture_config.so_texture_path);
+	game_data->textures[DIR_WEST] = ft_convert_xpm_to_img(game_data, game_data->texture_data.texture_config.we_texture_path);
+	game_data->textures[DIR_EAST] = ft_convert_xpm_to_img(game_data, game_data->texture_data.texture_config.ea_texture_path);
+}
+
+
+//intialize textures values
+void ft_initialize_textures_data(t_texture_data *textures)
+{
+    textures->texture_config.ceiling_color = 0;
+    textures->texture_config.floor_color = 0;
+    textures->texture_config.no_texture_path = NULL;
+    textures->texture_config.so_texture_path = NULL;
+    textures->texture_config.we_texture_path = NULL;
+    textures->texture_config.ea_texture_path = NULL;
+    textures->hex_floor = 0x0;
+    textures->hex_ceiling = 0x0;
+    textures->size = TEXTURE_SIZE;
+    textures->step = 0.0;
+    textures->pos = 0.0;
+    textures->x_dir = 0;
+    textures->y_dir = 0;
+    
+}
+
+
+// need to be refactored and moved to the appropriate initialization folder
 void	ft_initialize_data(t_game_data *game_data)
 {
 	game_data->mlx = NULL;
@@ -96,42 +231,12 @@ void	ft_initialize_data(t_game_data *game_data)
 	game_data->win_height = SCREEN_HEIGHT;
 	game_data->win_width = SCREEN_WIDTH;
 	game_data->map = NULL;
-	// game_data->texture_pixels = NULL;
-	// game_data->textures = NULL;
-	ft_initialize_player(&game_data->player);
+	game_data->texture_pixels = NULL;
+	game_data->textures = NULL;
+	ft_initialize_player_data(&game_data->player);
     ft_initialize_map_data(&game_data->map_data);
-}
-
-int render(t_game_data *game_data)
-{
-    // Clear the window or perform any necessary pre-rendering steps
-    mlx_clear_window(game_data->mlx, game_data->win);
-
-    // Render the game scene here
-    // ...
-
-    // // Display the rendered frame
-    // mlx_put_image_to_window(game_data->mlx, game_data->win, 0, 0);
-
-    return 0;
-}
-
-//move to utils files in utils/utils.c
-void ft_clean_and_exit(t_game_data *game_data, int exit_code)
-{
-    if (!game_data)
-        exit(exit_code);
-    if (game_data->win && game_data->mlx)
-        mlx_destroy_window(game_data->mlx, game_data->win);
-    if (game_data->mlx)
-    {
-        mlx_destroy_display(game_data->mlx);
-        mlx_loop_end(game_data->mlx);
-        free(game_data->mlx);
-    }
-    ft_free_game_data(game_data);
-    exit(exit_code);
-}
+    ft_initialize_textures_data(&game_data->texture_data);
+} 
 
 
 // initialize screen and handle basic events as describe in this milestone
@@ -157,19 +262,35 @@ void ft_initialize_mlx_screen(t_game_data *game_data)
 }
 
 
+
+int render(t_game_data *game_data)
+{
+    // Clear the window or perform any necessary pre-rendering steps
+    mlx_clear_window(game_data->mlx, game_data->win);
+
+    // Render the game scene here
+    // ...
+
+    // // Display the rendered frame
+    // mlx_put_image_to_window(game_data->mlx, game_data->win, 0, 0);
+
+    return 0;
+}
+
+
+
 int ft_parse_arguments(t_game_data *game_data, char **argv)
 {
-    if (ft_file_checker(argv[1], true) == STATUS_FAIL)
+    if (ft_file_and_dir_checker(argv[1], true) == STATUS_FAIL)
         ft_clean_and_exit(game_data, STATUS_FAIL);
 
     //parse map data
-    ft_parse_data(argv[1], game_data);
-    
+    ft_parse_game_data(argv[1], game_data);
+    if (ft_get_gamefiles_data(game_data, game_data->map_data.file) == STATUS_FAIL)
+        return (ft_free_game_data(game_data));
     if (ft_validate_map(game_data, game_data->map) == STATUS_FAIL)
         return (ft_free_game_data(game_data));
     // get the data from different files both maps and textures
-    if (ft_get_file_data(game_data, game_data->map_data.file) == STATUS_FAIL)
-		return (ft_free_game_data(game_data));
     if (ft_validate_textures_map(game_data, &game_data->texture_data) == STATUS_FAIL)
         return (ft_free_game_data(game_data));
 
@@ -194,6 +315,8 @@ int main(int argc, char **argv)
 
     // Initialize game data and start the game loop here
     ft_initialize_mlx_screen(&game_data);
+    ft_initialize_textures(&game_data);
+    
     mlx_loop_hook(game_data.mlx, render, &game_data);
     mlx_loop(game_data.mlx);
     // ...
