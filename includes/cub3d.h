@@ -23,6 +23,9 @@
 # define SCREEN_WIDTH 1280
 # define SCREEN_HEIGHT 720
 
+// Texture size
+# define TEXTURE_SIZE 64
+
 // Movement and rotation speeds
 # define MOVE_SPEED 0.1
 # define ROTATION_SPEED 0.05
@@ -62,6 +65,23 @@ typedef struct s_img_data
 	void	*img;
 }	t_img_data;
 
+typedef enum e_status
+{
+    STATUS_OK = 0,
+    STATUS_FAIL = 1,
+    STATUS_ERROR = 2,
+    STATUS_BREAK = 3,
+    STATUS_CONTINUE = 4
+}	t_status;
+
+typedef enum e_direction
+{
+    DIR_NORTH = 0,
+    DIR_SOUTH = 1,
+    DIR_EAST = 2,
+    DIR_WEST = 3
+}	t_direction;
+
 typedef struct s_minimap
 {
     int		    size;
@@ -86,9 +106,8 @@ typedef struct s_map_data
 
 
 typedef struct s_config {
-    int		floor_color;
-    int		ceiling_color;
-    int		config_found;  // Bitwise flag to track found elements
+    int		*floor_color;
+    int		*ceiling_color;
     char	*no_texture_path;
     char	*so_texture_path;
     char	*we_texture_path;
@@ -100,12 +119,22 @@ typedef struct s_texture_data
     int				size;
 	int				x_dir;
 	int				y_dir;
+    int             config_found;
     unsigned long	hex_floor;
 	unsigned long	hex_ceiling;
 	double			step;
 	double			pos;
     t_config        texture_config;
 }	t_texture_data;
+
+typedef struct s_movement
+{
+    int     moved;
+    int     move_x;
+    int     move_y;
+    int     rotate;
+    char    direction;
+}               t_movement;
 
 // Player structure
 typedef struct s_player {
@@ -115,7 +144,8 @@ typedef struct s_player {
     double	dir_y;
     double	plane_x;
     double	plane_y;
-}	t_player;
+    t_movement movement;
+}	            t_player;
 
 // Raycasting data structure
 typedef struct s_ray {
@@ -149,11 +179,32 @@ typedef struct s_game_data
 	t_player	    player;
 	t_ray		    ray;
 	t_texture_data  texture_data;
-	t_map_data	    mapinfo;
-	t_img_data		minimap;
+	t_map_data	    map_data;
+	// t_img_data		mini_map;
 }	          t_game_data;
 
 // Function prototypes
 int ft_error_msg(char *arg, char *str, int code);
+
+int	ft_error_val(int arg, char *str, int er_code);
+int	ft_file_and_dir_checker(char *arg, bool cub_file);
+int ft_validate_map(t_game_data *game_data, char **map_table);
+int ft_validate_textures_map(t_game_data *game_data, t_texture_data *textures);
+void ft_parse_game_data(char *path, t_game_data *game_data);
+int	ft_get_gamefiles_data(t_game_data *game_data, char **map);
+int ft_build_map(t_game_data *game_data, char **file, int i);
+
+// Free Functions
+void ft_free_table(void **table);
+//free all textures data
+void ft_free_texture_data(t_texture_data *textures);
+void ft_free_map_table(t_game_data *game_data);
+int ft_free_game_data(t_game_data *game_data);
+
+//utils
+int	ft_fill_rgb_color(t_game_data *game_data, t_texture_data *textures, char *line, int j);
+
+int	   ft_empty_char(char c);
+size_t	ft_max_width(t_map_data *map_data, int i);
 
 #endif
