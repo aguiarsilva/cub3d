@@ -1,76 +1,189 @@
-int	read_map_line(int fd, char **line)
+#include "cub3d.h"
+
+
+
+
+// static char *ft_extract_texture_path(char *line, int *j)
+// {
+// 	int len, i;
+// 	char *path;
+
+// 	while (line[*j] && (line[*j] == ' ' || line[*j] == '\t'))
+// 		(*j)++;
+// 	len = *j;
+// 	while (line[len] && (line[len] != ' ' && line[len] != '\t'))
+// 		len++;
+// 	path = malloc(sizeof(char) * (len - *j + 1));
+// 	if (!path)
+// 		return (NULL);
+// 	i = 0;
+// 	while (line[*j] && (line[*j] != ' ' && line[*j] != '\t' && line[*j] != '\n'))
+// 		path[i++] = line[(*j)++];
+// 	path[i] = '\0';
+
+// 	while (line[*j] && (line[*j] == ' ' || line[*j] == '\t'))
+// 		(*j)++;
+// 	if (line[*j] && line[*j] != '\n')
+// 	{
+// 		free(path);
+// 		return (NULL);
+// 	}
+// 	return (path);
+// }
+
+// static int ft_process_texture_info(t_texture_data *textures, char *line, int j)
+// {
+// 	if (line[j + 2] && ft_isprint(line[j + 2]))
+// 		return (STATUS_ERROR);
+// 	if (line[j] == 'N' && line[j + 1] == 'O' && !(textures->texture_config.no_texture_path))
+// 		textures->texture_config.no_texture_path = ft_extract_texture_path(line, &j);
+// 	else if (line[j] == 'S' && line[j + 1] == 'O' && !(textures->texture_config.so_texture_path))
+// 		textures->texture_config.so_texture_path = ft_extract_texture_path(line, &j);
+// 	else if (line[j] == 'W' && line[j + 1] == 'E' && !(textures->texture_config.we_texture_path))
+// 		textures->texture_config.we_texture_path = ft_extract_texture_path(line, &j);
+// 	else if (line[j] == 'E' && line[j + 1] == 'A' && !(textures->texture_config.ea_texture_path))
+// 		textures->texture_config.ea_texture_path = ft_extract_texture_path(line, &j);
+// 	else
+// 		return (STATUS_ERROR);
+// 	return (STATUS_OK);
+// }
+
+// int ft_get_file_data(t_game_data *game_data, char **map)
+// {
+// 	int i, j;
+// 	i = 0;
+// 	while (map[i])
+// 	{
+// 		j = 0;
+// 		while (map[i][j])
+// 		{
+// 			while (map[i][j] == ' ' || map[i][j] == '\t' || map[i][j] == '\n')
+// 				j++;
+// 			if (ft_isprint(map[i][j]) && !ft_isdigit(map[i][j]))
+// 			{
+// 				if (map[i][j + 1] && ft_isprint(map[i][j + 1]) && !ft_isdigit(map[i][j]))
+// 				{
+// 					if (ft_process_texture_info(&game_data->texture_data, map[i], j) == STATUS_ERROR)
+// 						return (ft_error_msg(game_data->map_data.path, ERR_TEX_INVALID, STATUS_FAIL));
+// 					break;
+// 				}
+// 				else
+// 				{
+// 					if (ft_fill_color_textures(game_data, &game_data->texture_data, map[i], j) == STATUS_ERROR)
+// 						return (STATUS_FAIL);
+// 					break;
+// 				}
+// 			}
+// 			else if (ft_isdigit(map[i][j]))
+// 			{
+// 				if (ft_build_map(game_data, map, i) == STATUS_FAIL)
+// 					return (ft_error_msg(game_data->map_data.path, ERR_INVALID_MAP, STATUS_FAIL));
+// 				return (STATUS_OK);
+// 			}
+// 			j++;
+// 		}
+// 		i++;
+// 	}
+// 	return (STATUS_OK);
+// }
+
+
+char	*ft_get_texture_path(char *line, int j)
 {
-    char	*temp;
+	int		len;
+	int		i;
+	char	*path;
 
-    temp = get_next_line(fd);
-    if (!temp)
-        return (0);
-    *line = ft_strtrim(temp, " \n");
-    free(temp);
-    if (!(*line) || *line[0] == '\0')
-    {
-        free(*line);
-        *line = NULL;
-        return (0);
-    }
-    return (1);
-}
-
-void	sanitize_map_line(char *line)
-{
-	int	len;
-
-	len = ft_strlen(line);
-	if (len > 0 && line[len - 1] == '\n')
-		line[len - 1] = '\0';
-}
-
-int	process_config_map_or_map(t_game *game, char *line, int *in_map)
-{
-	if (!(*in_map))
+	while (line[j] && (line[j] == ' ' || line[j] == '\t'))
+		j++;
+	len = j;
+	while (line[len] && (line[len] != ' ' && line[len] != '\t'))
+		len++;
+	path = malloc(sizeof(char) * (len - j + 1));
+	if (!path)
+		return (NULL);
+	i = 0;
+	while (line[j] && (line[j] != ' ' && line[j] != '\t' && line[j] != '\n'))
+		path[i++] = line[j++];
+	path[i] = '\0';
+	while (line[j] && (line[j] == ' ' || line[j] == '\t'))
+		j++;
+	if (line[j] && line[j] != '\n')
 	{
-		if (handle_config_line(game, line))
-			return (1);
-		if (ft_strchr(line, '1') || ft_strchr(line, '0'))
-			*in_map = 1;
+		free(path);
+		path = NULL;
 	}
-	if (*in_map)
-		store_map_line(game, line);
-	return (1);
+	return (path);
 }
 
-int	validate_map_after_parsing(t_game *game)
+int	ft_fill_direction(t_texture_data *textures, char *line, int j)
 {
-	if (!validate_config(game) || !validate_map_content(game->map, game->map_height))
-	{
-		ft_error_msg(NULL, ERR_INV_MAP, 2);
-		return (0);
-	}
-	init_player(game);
-	return (1);
+	if (line[j + 2] && ft_isprint(line[j + 2]))
+		return (STATUS_ERROR);
+	if (line[j] == 'N' && line[j + 1] == 'O' && !(textures->texture_config.no_texture_path))
+		textures->texture_config.no_texture_path = ft_get_texture_path(line, j + 2);
+	else if (line[j] == 'S' && line[j + 1] == 'O' && !(textures->texture_config.so_texture_path))
+		textures->texture_config.so_texture_path = ft_get_texture_path(line, j + 2);
+	else if (line[j] == 'W' && line[j + 1] == 'E' && !(textures->texture_config.we_texture_path))
+		textures->texture_config.we_texture_path = ft_get_texture_path(line, j + 2);
+	else if (line[j] == 'E' && line[j + 1] == 'A' && !(textures->texture_config.ea_texture_path))
+		textures->texture_config.ea_texture_path = ft_get_texture_path(line, j + 2);
+	else
+		return (STATUS_ERROR);
+	return (STATUS_OK);
 }
 
-int	parse_map(t_game *game, char *file_path)
+int	ft_handle_space_get_data(t_game_data *game_data, char **map, int i, int j)
 {
-	int	fd;
-	char	*line;
-	int	in_map;
-	int	status;
-
-	if (!validate_file_extension(file_path))
-		return (0);
-	fd = open(file_path, O_RDONLY);
-	if (fd < 0)
-		return (0);
-	in_map = 0;
-	status = 1;
-	while (status && read_map_line(fd, &line))
+	while (map[i][j] == ' ' || map[i][j] == '\t' || map[i][j] == '\n')
+		j++;
+	if (ft_isprint(map[i][j]) && !ft_isdigit(map[i][j]))
 	{
-		sanitize_map_line(line);
-		status = process_config_or_map(game, line, &in_map);
-		free(line);
+		if (map[i][j + 1] && ft_isprint(map[i][j + 1])
+			&& !ft_isdigit(map[i][j]))
+		{
+			if (ft_fill_direction(&game_data->texture_data, map[i], j) == STATUS_ERROR)
+				return (ft_error_msg(game_data->map_data.path, ERR_TEX_INVALID, STATUS_ERROR));
+			return (STATUS_BREAK);
+		}	
+		else
+		{
+			if (ft_fill_rgb_color(game_data, &game_data->texture_data, map[i], j) == STATUS_ERROR)
+				return (STATUS_FAIL);
+			return (STATUS_BREAK);
+		}	
 	}
-	close(fd);
-	return validate_map_after_parsing(game);
+	else if (ft_isdigit(map[i][j]))
+	{
+		if (ft_build_map(game_data, map, i) == STATUS_FAIL)
+			return (ft_error_msg(game_data->map_data.path, ERR_INVALID_MAP, STATUS_FAIL));
+		return (STATUS_OK);
+	}
+	return (STATUS_CONTINUE);
 }
 
+int	ft_get_gamefiles_data(t_game_data *game_data, char **map)
+{
+	int	i;
+	int	j;
+	int	result;
+
+	i = 0;
+	while (map[i])
+	{
+		j = 0;
+		while (map[i][j])
+		{
+			result = ft_handle_space_get_data(game_data, map, i, j);
+			if (result == STATUS_BREAK)
+				break ;
+			else if (result == STATUS_FAIL)
+				return (STATUS_FAIL);
+			else if (result == STATUS_OK)
+				return (STATUS_OK);
+			j++;
+		}
+		i++;
+	}
+	return (STATUS_OK);
+}
