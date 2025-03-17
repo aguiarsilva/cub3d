@@ -138,25 +138,18 @@ typedef struct s_movement
 
 // Player structure
 typedef struct s_player {
-    double	x_pos;
-    double	y_pos;
-    double	dir_x;
-    double	dir_y;
-    double	plane_x;
-    double	plane_y;
-    t_movement movement;
+    double	    x_pos;
+    double	    y_pos;
+    double	    dir_x;
+    double	    dir_y;
+    double	    plane_x;
+    double	    plane_y;
+    t_movement  movement;
 }	            t_player;
 
-// Raycasting data structure
-typedef struct s_ray {
-    int		map_x;
-    int		map_y;
-    int		step_x;
-    int		step_y;
-    int		side;
-    int		line_height;
-    int		draw_start;
-    int		draw_end;
+// ray float point direction
+typedef struct s_ray_fpoint
+{
     double	camera_x;
     double	ray_dir_x;
     double	ray_dir_y;
@@ -165,6 +158,21 @@ typedef struct s_ray {
     double	delta_dist_y;
     double	delta_dist_x;
     double	wall_dist;
+    double	wall_x; // need to find usage
+}           t_ray_fpoint;
+
+// Raycasting data structure
+typedef struct s_ray {
+    int		        map_x;
+    int		        map_y;
+    int		        step_x;
+    int		        step_y;
+    int		        side;
+    int		        line_height;
+    int		        draw_start;
+    int		        draw_end;
+    t_ray_fpoint    ray_distance;
+
 }	            t_ray;
 
 typedef struct s_game_data
@@ -182,6 +190,9 @@ typedef struct s_game_data
 	t_map_data	    map_data;
 	// t_img_data		mini_map;
 }	          t_game_data;
+
+//init function prototypes
+void	ft_initialize_ray_data(t_ray *ray);
 
 // Function prototypes
 int ft_error_msg(char *arg, char *str, int code);
@@ -201,10 +212,26 @@ void ft_free_texture_data(t_texture_data *textures);
 void ft_free_map_table(t_game_data *game_data);
 int ft_free_game_data(t_game_data *game_data);
 
+void ft_clean_and_exit(t_game_data *game_data, int exit_code);
+
 //utils
 int	ft_fill_rgb_color(t_game_data *game_data, t_texture_data *textures, char *line, int j);
 
+void	ft_set_image_pixel(t_img_data *image, int x, int y, int color_val);
+
 int	   ft_empty_char(char c);
 size_t	ft_max_width(t_map_data *map_data, int i);
+
+// Graphi set up
+void	ft_initialize_graphic_pixels(t_game_data *game_data);
+
+void	ft_get_graphic_location(t_game_data *game_data, t_ray *ray);
+void	ft_update_graphic_pixels(t_game_data *game_data, t_texture_data *texture, t_ray *ray, int x);
+
+//movement proptotype
+int ft_move_player(t_game_data *game_data);
+
+//Raycasting
+int	ft_raycasting(t_player *player, t_game_data *game_data);
 
 #endif
