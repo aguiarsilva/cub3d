@@ -63,9 +63,9 @@ int	ft_handle_mouse_motion(int x, int y, t_game_data *game_data)
 	if (x == old_x)
 		return (0);
 	else if (x < old_x)
-		game_data->player.movement.moved += rotate_player(game_data, -1);
+		game_data->player.movement.moved += ft_rotate_player(game_data, -1);
 	else if (x > old_x)
-		game_data->player.movement.moved += rotate_player(game_data, 1);
+		game_data->player.movement.moved += ft_rotate_player(game_data, 1);
 	old_x = x;
 	return (0);
 }
@@ -80,12 +80,62 @@ void	ft_setup_input_listeners(t_game_data *game_data)
 
 
 
+//complete implementation of player movement
 
-
-
-int ft_move_player(t_game_data *game_data)
+int	ft_move_forward(t_game_data *game_data)
 {
-    (void)game_data;
-    printf("playerMovement to be implemented");
-    return (0);
+	double	new_x;
+	double	new_y;
+
+	new_x = game_data->player.x_pos + game_data->player.dir_x * MOVE_SPEED;
+	new_y = game_data->player.y_pos + game_data->player.dir_y * MOVE_SPEED;
+	return (ft_validate_movement(game_data, new_x, new_y));
+}
+
+int	ft_move_backward(t_game_data *game_data)
+{
+	double	new_x;
+	double	new_y;
+
+	new_x = game_data->player.x_pos - game_data->player.dir_x * MOVE_SPEED;
+	new_y = game_data->player.y_pos- game_data->player.dir_y * MOVE_SPEED;
+	return (ft_validate_movement(game_data, new_x, new_y));
+}
+
+int	ft_move_left(t_game_data *game_data)
+{
+	double	next_x;
+	double	next_y;
+
+	next_x = game_data->player.x_pos + game_data->player.dir_y * MOVE_SPEED;
+	next_y = game_data->player.y_pos - game_data->player.dir_x * MOVE_SPEED;
+	return (ft_validate_movement(game_data, next_x, next_y));
+}
+
+int	ft_move_right(t_game_data *game_data)
+{
+	double	next_x;
+	double	next_y;
+
+	next_x = game_data->player.x_pos - game_data->player.dir_y * MOVE_SPEED;
+	next_y = game_data->player.y_pos + game_data->player.dir_x * MOVE_SPEED;
+	return (ft_validate_movement(game_data, next_x, next_y));
+}
+
+int	ft_move_player(t_game_data *game_data)
+{
+	int	moved;
+
+	moved = 0;
+	if (game_data->player.movement.move_y == 1)
+		moved += ft_move_forward(game_data);
+	if (game_data->player.movement.move_y == -1)
+		moved += ft_move_backward(game_data);
+	if (game_data->player.movement.move_x == -1)
+		moved += ft_move_left(game_data);
+	if (game_data->player.movement.move_x == 1)
+		moved += ft_move_right(game_data);
+	if (game_data->player.movement.rotate != 0)
+		moved += ft_rotate_player(game_data, game_data->player.movement.rotate);
+	return (moved);
 }
