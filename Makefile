@@ -6,7 +6,7 @@
 #    By: dsamuel <dsamuel@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/02/20 15:02:36 by dsamuel           #+#    #+#              #
-#    Updated: 2025/03/11 19:40:17 by dsamuel          ###   ########.fr        #
+#    Updated: 2025/03/17 12:20:01 by dsamuel          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -34,7 +34,7 @@ SRC		= 	cub3dgame/main.c \
             parsing/build_map.c parsing/check_file.c parsing/parse_data.c parsing/parse_map.c parsing/validate_map.c \
             player/collision_detection.c player/player_movement.c player/player_rotation.c \
             rendering/raycasting.c rendering/render_minimap.c rendering/render_textures.c rendering/render.c \
-            utils/error_handling.c utils/memory_management.c utils/parsing_utils.c
+            utils/error_handling.c utils/graphic_utils.c utils/memory_management.c utils/parsing_utils.c
 
 SRCS	= $(addprefix $(SRC_PATH), $(SRC))
 

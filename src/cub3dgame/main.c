@@ -6,7 +6,7 @@
 /*   By: dsamuel <dsamuel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/05 15:33:07 by dsamuel           #+#    #+#             */
-/*   Updated: 2025/03/12 18:22:23 by dsamuel          ###   ########.fr       */
+/*   Updated: 2025/03/17 12:14:59 by dsamuel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,25 +85,40 @@ void	ft_initialize_img_data(t_img_data *image)
 	image->endian = 0;
 }
 
+void  ft_init_ray_fpoint(t_ray_fpoint *ray_fpoint)
+{
+    ray_fpoint->camera_x = 0.0;
+    ray_fpoint->ray_dir_x = 0.0;
+    ray_fpoint->ray_dir_y = 0.0;
+    ray_fpoint->side_dist_x = 0.0;
+    ray_fpoint->side_dist_y = 0.0;
+    ray_fpoint->delta_dist_x = 0.0;
+    ray_fpoint->delta_dist_y = 0.0;
+    ray_fpoint->wall_dist = 0.0;
+    ray_fpoint->wall_x = 0.0;
+    
+}
+
 void	ft_initialize_ray_data(t_ray *ray)
 {
-	ray->camera_x = 0;
-	ray->ray_dir_x = 0;
-	ray->ray_dir_y = 0;
+	// ray->camera_x = 0;
+	// ray->ray_dir_x = 0;
+	// ray->ray_dir_y = 0;
 	ray->map_x = 0;
 	ray->map_y = 0;
 	ray->step_x = 0;
 	ray->step_y = 0;
-	ray->side_dist_x = 0;
-	ray->side_dist_y = 0;
-	ray->delta_dist_x = 0;
-	ray->delta_dist_y = 0;
-	ray->wall_dist = 0;
+	// ray->side_dist_x = 0;
+	// ray->side_dist_y = 0;
+	// ray->delta_dist_x = 0;
+	// ray->delta_dist_y = 0;
+	// ray->wall_dist = 0;
 	ray->side = 0;
 	ray->line_height = 0;
 	ray->draw_start = 0;
 	ray->draw_end = 0;
 	// ray->wall_x = 0;
+    ft_init_ray_fpoint(&ray->ray_distance);
 }
 
 void	ft_initialize_map_data(t_map_data *map_data)
@@ -191,6 +206,7 @@ int	*ft_convert_xpm_to_img(t_game_data *game_data, char *path)
 	return (buffer);
 }
 
+
 void	ft_initialize_textures(t_game_data *game_data)
 {
 	game_data->textures = ft_calloc(5, sizeof * game_data->textures);
@@ -263,13 +279,67 @@ void ft_initialize_mlx_screen(t_game_data *game_data)
 
 
 
-int render(t_game_data *game_data)
+//Initialialzie and render graphics
+
+
+void	ft_set_frame_image_pixel(t_game_data *game_data, t_img_data *image, int x, int y)
+{
+	if (game_data->texture_pixels[y][x] > 0)
+		ft_set_image_pixel(image, x, y, game_data->texture_pixels[y][x]);
+	else if (y < game_data->win_height / 2)
+		ft_set_image_pixel(image, x, y, game_data->texture_data.hex_ceiling);
+	else if (y < game_data->win_height - 1)
+		ft_set_image_pixel(image, x, y, game_data->texture_data.hex_floor);
+}
+
+void	ft_generate_render_frame(t_game_data *game_data)
+{
+	t_img_data	image;
+	int		x;
+	int		y;
+
+	image.img = NULL;
+	ft_initialize_image(game_data, &image, game_data->win_width, game_data->win_height);
+	y = 0;
+	while (y < game_data->win_height)
+	{
+		x = 0;
+		while (x < game_data->win_width)
+		{
+			ft_set_frame_image_pixel(game_data, &image, x, y);
+			x++;
+		}
+		y++;
+	}
+	mlx_put_image_to_window(game_data->mlx, game_data->win, image.img, 0, 0);
+	mlx_destroy_image(game_data->mlx, image.img);
+}
+
+void	ft_generate_render_raycast(t_game_data *game_data)
+{
+	ft_initialize_graphic_pixels(game_data);
+	ft_initialize_ray_data(&game_data->ray);
+	ft_raycasting(&game_data->player, game_data);
+	ft_generate_render_frame(game_data);
+}
+
+void	ft_generate_render_images(t_game_data *game_data)
+{
+	ft_generate_render_raycast(game_data);
+}
+
+
+int ft_render(t_game_data *game_data)
 {
     // Clear the window or perform any necessary pre-rendering steps
-    mlx_clear_window(game_data->mlx, game_data->win);
+    // mlx_clear_window(game_data->mlx, game_data->win);
 
     // Render the game scene here
-    // ...
+	game_data->player.movement.moved += ft_move_player(game_data);
+    if (game_data->player.movement.moved == 0)
+    	return (0);
+    ft_generate_render_images(game_data);
+    
 
     // // Display the rendered frame
     // mlx_put_image_to_window(game_data->mlx, game_data->win, 0, 0);
@@ -316,11 +386,12 @@ int main(int argc, char **argv)
     // Initialize game data and start the game loop here
     ft_initialize_mlx_screen(&game_data);
     ft_initialize_textures(&game_data);
+	ft_generate_render_images(&game_data);
+    // ft_render_graphic_images(&game_data);
     
-    mlx_loop_hook(game_data.mlx, render, &game_data);
+    mlx_loop_hook(game_data.mlx, ft_render, &game_data);
     mlx_loop(game_data.mlx);
-    // ...
-    mlx_loop(game_data.mlx);
+    
 	return (0);
     
 }
