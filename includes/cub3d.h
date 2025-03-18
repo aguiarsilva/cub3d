@@ -30,6 +30,8 @@
 # define MOVE_SPEED 0.1
 # define ROTATION_SPEED 0.05
 
+//
+
 // Error messages
 # define ERR_USAGE "Usage: ./cub3d <path/to/map.cub>"
 # define ERR_FILE_NOT_CUB "Error: Not a .cub file"
@@ -233,5 +235,18 @@ int ft_move_player(t_game_data *game_data);
 
 //Raycasting
 int	ft_raycasting(t_player *player, t_game_data *game_data);
+
+//
+//
+void	ft_setup_input_listeners(t_game_data *game_data);
+int ft_exit_game(t_game_data *game_data);
+
+
+//Rotate player
+int	ft_rotate_player(t_game_data *game_data, double rotation_direction);
+int ft_validate_movement(t_game_data *game_data, double next_x, double next_y);
+
+//initialize player direction
+void	ft_initialize_player_direction(t_game_data *game_data);
 
 #endif

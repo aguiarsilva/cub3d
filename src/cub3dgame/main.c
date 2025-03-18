@@ -6,7 +6,7 @@
 /*   By: dsamuel <dsamuel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/05 15:33:07 by dsamuel           #+#    #+#             */
-/*   Updated: 2025/03/17 12:14:59 by dsamuel          ###   ########.fr       */
+/*   Updated: 2025/03/18 18:26:34 by dsamuel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -365,6 +365,7 @@ int ft_parse_arguments(t_game_data *game_data, char **argv)
         return (ft_free_game_data(game_data));
 
     // initialize player direction ... to be implemented
+	ft_initialize_player_direction(game_data);
     
     return (0);
     
@@ -388,6 +389,7 @@ int main(int argc, char **argv)
     ft_initialize_textures(&game_data);
 	ft_generate_render_images(&game_data);
     // ft_render_graphic_images(&game_data);
+	ft_setup_input_listeners(&game_data);
     
     mlx_loop_hook(game_data.mlx, ft_render, &game_data);
     mlx_loop(game_data.mlx);
