@@ -62,3 +62,31 @@ int ft_free_game_data(t_game_data *game_data)
     ft_free_map_table(game_data);
     return (STATUS_FAIL);
 }
+
+void ft_clean_and_exit(t_game_data *game_data, int exit_code)
+{
+    if (!game_data)
+        exit(exit_code);
+    if (game_data->win && game_data->mlx)
+        mlx_destroy_window(game_data->mlx, game_data->win);
+    if (game_data->mlx)
+    {
+        mlx_destroy_display(game_data->mlx);
+        mlx_loop_end(game_data->mlx);
+        free(game_data->mlx);
+    }
+    ft_free_game_data(game_data);
+    exit(exit_code);
+}
+
+// int ft_exit_game(t_game_data *game_data)
+// {
+//     ft_clean_and_exit(game_data, STATUS_OK);
+//     return (STATUS_OK);
+// }
+
+int ft_exit_game(t_game_data *game_data)
+{
+    ft_clean_and_exit(game_data, 0);
+    return (0);
+}

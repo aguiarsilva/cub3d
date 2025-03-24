@@ -140,3 +140,25 @@ void	ft_parse_game_data(char *path, t_game_data *game_data)
 		close(game_data->map_data.fd);
 	}
 }
+
+int ft_parse_arguments(t_game_data *game_data, char **argv)
+{
+    if (ft_file_and_dir_checker(argv[1], true) == STATUS_FAIL)
+        ft_clean_and_exit(game_data, STATUS_FAIL);
+
+    //parse map data
+    ft_parse_game_data(argv[1], game_data);
+    if (ft_get_gamefiles_data(game_data, game_data->map_data.file) == STATUS_FAIL)
+        return (ft_free_game_data(game_data));
+    if (ft_validate_map(game_data, game_data->map) == STATUS_FAIL)
+        return (ft_free_game_data(game_data));
+    // get the data from different files both maps and textures
+    if (ft_validate_textures_map(game_data, &game_data->texture_data) == STATUS_FAIL)
+        return (ft_free_game_data(game_data));
+
+    // initialize player direction ... to be implemented
+	ft_initialize_player_direction(game_data);
+    
+    return (0);
+    
+}

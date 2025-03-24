@@ -66,3 +66,34 @@ void	ft_update_graphic_pixels(t_game_data *game_data, t_texture_data *texture, t
 		y++;
 	}
 }
+
+void	ft_initialize_textures(t_game_data *game_data)
+{
+	game_data->textures = ft_calloc(5, sizeof * game_data->textures);
+	if (!game_data->textures)
+		ft_clean_and_exit(game_data, ft_error_msg(NULL, ERR_MALLOC, 1));
+	game_data->textures[DIR_NORTH] = ft_convert_xpm_to_img(game_data, game_data->texture_data.texture_config.no_texture_path);
+	game_data->textures[DIR_SOUTH] = ft_convert_xpm_to_img(game_data, game_data->texture_data.texture_config.so_texture_path);
+	game_data->textures[DIR_WEST] = ft_convert_xpm_to_img(game_data, game_data->texture_data.texture_config.we_texture_path);
+	game_data->textures[DIR_EAST] = ft_convert_xpm_to_img(game_data, game_data->texture_data.texture_config.ea_texture_path);
+}
+
+
+//intialize textures values
+void ft_initialize_textures_data(t_texture_data *textures)
+{
+    textures->texture_config.ceiling_color = 0;
+    textures->texture_config.floor_color = 0;
+    textures->texture_config.no_texture_path = NULL;
+    textures->texture_config.so_texture_path = NULL;
+    textures->texture_config.we_texture_path = NULL;
+    textures->texture_config.ea_texture_path = NULL;
+    textures->hex_floor = 0x0;
+    textures->hex_ceiling = 0x0;
+    textures->size = TEXTURE_SIZE;
+    textures->step = 0.0;
+    textures->pos = 0.0;
+    textures->x_dir = 0;
+    textures->y_dir = 0;
+    
+}
