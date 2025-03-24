@@ -6,7 +6,7 @@
 /*   By: baguiar- <baguiar-@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/23 13:27:42 by baguiar-          #+#    #+#             */
-/*   Updated: 2025/03/23 13:35:08 by baguiar-         ###   ########.fr       */
+/*   Updated: 2025/03/24 14:46:00 by baguiar-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,10 @@
 // Movement and rotation speeds
 # define MOVE_SPEED 0.1
 # define ROTATION_SPEED 0.05
+
+# ifndef O_DIRECTORY
+#  define O_DIRECTORY 00200000
+# endif
 
 //
 
@@ -206,65 +210,145 @@ typedef struct s_game_data
 	// t_img_data		mini_map;
 }	t_game_data;
 
-//init function prototypes
-void	ft_initialize_ray_data(t_ray *ray);
+// init_data.c
+void			ft_initialize_img_data(t_img_data *image);
+void			ft_init_ray_fpoint(t_ray_fpoint *ray_fpoint);
+void			ft_initialize_ray_data(t_ray *ray);
+void			ft_initialize_map_data(t_map_data *map_data);
+void			ft_initialize_data(t_game_data *game_data);
 
-// Function prototypes
-int		ft_error_msg(char *arg, char *str, int code);
+// init_mlx.c
+void			ft_initialize_image(t_game_data *game_data,
+					t_img_data *image, int width, int height);
+void			ft_initialize_texture_img(t_game_data *game_data,
+					t_img_data *image, char *path);
+void			ft_initialize_mlx_screen(t_game_data *game_data);
 
-int		ft_error_val(int arg, char *str, int er_code);
-int		ft_file_and_dir_checker(char *arg, bool cub_file);
-int		ft_validate_map(t_game_data *game_data, char **map_table);
-int		ft_validate_textures_map(t_game_data *game_data,
-			t_texture_data *textures);
-void	ft_parse_game_data(char *path, t_game_data *game_data);
-int		ft_get_gamefiles_data(t_game_data *game_data, char **map);
-int		ft_build_map(t_game_data *game_data, char **file, int i);
+// init_player.c
+void			ft_initialize_player_data(t_player *player);
+void			ft_initialize_movemement_direction(t_player *player);
+void			ft_initialize_player_direction(t_game_data *game_data);
 
-// Free Functions
-void	ft_free_table(void **table);
-//free all textures data
-void	ft_free_texture_data(t_texture_data *textures);
-void	ft_free_map_table(t_game_data *game_data);
-int		ft_free_game_data(t_game_data *game_data);
+// init_textures.c
+void			ft_initialize_graphic_pixels(t_game_data *game_data);
+void			ft_get_graphic_location(t_game_data *game_data, t_ray *ray);
+void			ft_update_graphic_pixels(t_game_data *game_data,
+					t_texture_data *texture, t_ray *ray, int x);
+void			ft_initialize_textures(t_game_data *game_data);
+void			ft_initialize_textures_data(t_texture_data *textures);
 
-void	ft_clean_and_exit(t_game_data *game_data, int exit_code);
+// parsing.c
+int				ft_record_lines(t_game_data *game_data, char **file, int i);
+int				ft_fill_map_table(t_map_data *map_data,
+					char **map_table, int index);
+int				ft_get_map_data(t_game_data *game_data, char **file, int i);
+void			ft_convert_space_to_wall(t_game_data *game_data);
+int				ft_build_map(t_game_data *game_data, char **file, int i);
 
-//utils
-int		ft_fill_rgb_color(t_game_data *game_data,
-			t_texture_data *textures, char *line, int j);
+// check_file.c
+bool			ft_comfirm_dir(char *arg);
+bool			ft_confirm_cub_file(char *arg);
+int				ft_file_and_dir_checker(char *arg, bool cub_file);
 
-void	ft_set_image_pixel(t_img_data *image, int x, int y,
-			int color_val);
+// parse_data.c
+int				ft_get_total_lines(char *path);
+void			ft_fill_table(int row, int column, int i,
+					t_game_data *game_data);
+void			ft_parse_game_data(char *path, t_game_data *game_data);
+int				ft_parse_arguments(t_game_data *game_data, char **argv);
 
-int		ft_empty_char(char c);
-size_t	ft_max_width(t_map_data *map_data, int i);
+// parse_map.c
+char			*ft_get_texture_path(char *line, int j);
+int				ft_fill_direction(t_texture_data *textures, char *line, int j);
+int				ft_handle_space_get_data(t_game_data *game_data,
+					char **map, int i, int j);
+int				ft_get_gamefiles_data(t_game_data *game_data, char **map);
 
-// Graphi set up
-void	ft_initialize_graphic_pixels(t_game_data *game_data);
+// validate_map.c
+int				ft_validate_horizontal_boundaries(char **map_table, int i,
+					int j);
+int				ft_validate_map_boundaries(t_map_data *map_data,
+					char **map_table);
+int				ft_validate_map_components(t_game_data *game_data,
+					char **map_table);
+int				ft_validate_position(t_game_data *game_data,
+					char **map_table);
+int				ft_validate_player_position(t_game_data *game_data,
+					char **map_table);
+int				ft_validate_map_end_reached(t_map_data *map);
+int				ft_validate_map(t_game_data *game_data, char **map_table);
+int				ft_validate_rgb(int *rgb);
+unsigned long	ft_convert_rgb_to_hex(int *rgb_tab);
+int				ft_validate_textures_map(t_game_data *game_data,
+					t_texture_data *textures);
 
-void	ft_get_graphic_location(t_game_data *game_data, t_ray *ray);
-void	ft_update_graphic_pixels(t_game_data *game_data,
-			t_texture_data *texture, t_ray *ray, int x);
+// collision_detection.c
+bool			is_valid_wall_position(t_game_data *game_data, double x,
+					double y);
+bool			is_within_map_bounds(t_game_data *game_data, double x,
+					double y);
+bool			is_valid_position(t_game_data *game_data, double x,
+					double y);
+int				ft_validate_movement(t_game_data *game_data, double next_x,
+					double next_y);
 
-//movement proptotype
-int		ft_move_player(t_game_data *game_data);
+// player_movement.c
+int				ft_handle_key_press(int key_code, t_game_data *game_data);
+int				ft_handle_key_release(int key_code, t_game_data *game_data);
+void			ft_adjust_mouse_position(t_game_data *game_data, int x, int y);
+int				ft_handle_mouse_motion(int x, int y, t_game_data *game_data);
+void			ft_setup_input_listeners(t_game_data *game_data);
 
-//Raycasting
-int		ft_raycasting(t_player *player, t_game_data *game_data);
+// player_rotation.c
+int				ft_rotation(t_game_data *game_data, double rotation_speed);
+int				ft_rotate_player(t_game_data *game_data,
+					double rotation_direction);
 
-//
-//
-void	ft_setup_input_listeners(t_game_data *game_data);
-int		ft_exit_game(t_game_data *game_data);
+// raycasting.c
+void			ft_initialize_raycasting_data(int x, t_ray *ray,
+					t_player *player);
+void			ft_set_dda(t_ray *ray, t_player *player);
+void			ft_perform_dda(t_game_data *game_data, t_ray *ray);
+void			ft_calculate_line_height(t_ray *ray, t_game_data *game_data,
+					t_player *player);
+int				ft_raycasting(t_player *player, t_game_data *game_data);
 
-//Rotate player
-int		ft_rotate_player(t_game_data *game_data,
-			double rotation_direction);
-int		ft_validate_movement(t_game_data *game_data,
-			double next_x, double next_y);
+// render_minimap.c
 
-//initialize player direction
-void	ft_initialize_player_direction(t_game_data *game_data);
+// render_textures.c
+int				*ft_convert_xpm_to_img(t_game_data *game_data, char *path);
+
+// render.c
+void			ft_set_frame_image_pixel(t_game_data *game_data,
+					t_img_data *image, int x, int y);
+void			ft_generate_render_frame(t_game_data *game_data);
+void			ft_generate_render_raycast(t_game_data *game_data);
+void			ft_generate_render_images(t_game_data *game_data);
+int				ft_render(t_game_data *game_data);
+
+// error_handling.c
+int				ft_error_msg(char *arg, char *str, int er_code);
+int				ft_error_val(int arg, char *str, int er_code);
+
+// graphic_utils.c
+void			ft_set_image_pixel(t_img_data *image, int x, int y,
+					int color_val);
+
+// memory_management.c
+void			ft_free_table(void **table);
+void			ft_free_texture_data(t_texture_data *textures);
+void			ft_free_map_table(t_game_data *game_data);
+int				ft_free_game_data(t_game_data *game_data);
+void			ft_clean_and_exit(t_game_data *game_data, int exit_code);
+int				ft_exit_game(t_game_data *game_data);
+
+// parsing_utils.c
+int				ft_empty_char(char c);
+size_t			ft_max_width(t_map_data *map_data, int i);
+bool			ft_comfirm_digit_absence(char *str);
+int				*ft_move_to_rgb_contents(char **rgb_to_convert, int *rgb);
+int				*ft_compose_rgb_colors(char *line);
+int				ft_fill_rgb_color(t_game_data *game_data,
+					t_texture_data *textures, char *line, int j);
 
 #endif
