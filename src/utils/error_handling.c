@@ -1,4 +1,4 @@
-#include "cub3d.h"s
+#include "cub3d.h"
 
 int ft_error_msg(char *arg, char *str, int er_code)
 {

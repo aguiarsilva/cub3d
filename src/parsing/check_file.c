@@ -1,11 +1,5 @@
 #include "cub3d.h"
 
-// move ot header file
-# ifndef O_DIRECTORY
-#  define O_DIRECTORY 00200000
-# endif
-
-
 // // need refactoring less lines of code
 // int ft_file_and_dir_checker(char *arg, bool cub_file)
 // {
