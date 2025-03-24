@@ -6,7 +6,7 @@
 /*   By: baguiar- <baguiar-@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/23 13:27:42 by baguiar-          #+#    #+#             */
-/*   Updated: 2025/03/24 14:46:00 by baguiar-         ###   ########.fr       */
+/*   Updated: 2025/03/24 15:12:22 by baguiar-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -298,6 +298,11 @@ int				ft_handle_key_release(int key_code, t_game_data *game_data);
 void			ft_adjust_mouse_position(t_game_data *game_data, int x, int y);
 int				ft_handle_mouse_motion(int x, int y, t_game_data *game_data);
 void			ft_setup_input_listeners(t_game_data *game_data);
+int				ft_move_forward(t_game_data *game_data);
+int				ft_move_backward(t_game_data *game_data);
+int				ft_move_left(t_game_data *game_data);
+int				ft_move_right(t_game_data *game_data);
+int				ft_move_player(t_game_data *game_data);
 
 // player_rotation.c
 int				ft_rotation(t_game_data *game_data, double rotation_speed);
