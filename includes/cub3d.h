@@ -6,7 +6,7 @@
 /*   By: baguiar- <baguiar-@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/23 13:27:42 by baguiar-          #+#    #+#             */
-/*   Updated: 2025/03/24 15:12:22 by baguiar-         ###   ########.fr       */
+/*   Updated: 2025/03/25 14:39:06 by baguiar-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -224,10 +224,12 @@ void			ft_initialize_texture_img(t_game_data *game_data,
 					t_img_data *image, char *path);
 void			ft_initialize_mlx_screen(t_game_data *game_data);
 
+// init_movement.c
+void			ft_initialize_player_direction(t_game_data *game_data);
+
 // init_player.c
 void			ft_initialize_player_data(t_player *player);
 void			ft_initialize_movemement_direction(t_player *player);
-void			ft_initialize_player_direction(t_game_data *game_data);
 
 // init_textures.c
 void			ft_initialize_graphic_pixels(t_game_data *game_data);
