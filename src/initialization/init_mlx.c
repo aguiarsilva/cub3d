@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   init_mlx.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: baguiar- <baguiar-@student.42wolfsburg.de  +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/03/25 12:55:23 by baguiar-          #+#    #+#             */
+/*   Updated: 2025/03/25 12:55:25 by baguiar-         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "cub3d.h"
 
 //move mlx initaizlization folder files
@@ -42,7 +54,7 @@ void	ft_initialize_texture_img(t_game_data *game_data, t_img_data *image, char *
 	size = game_data->texture_data.size;
 	image->img = mlx_xpm_file_to_image(game_data->mlx, path, &size, &size);
 	if (!image->img)
-		ft_clean_and_exit(game_data, ft_error_msg(NULL, ERR_MLX,IMG, 1));
+		ft_clean_and_exit(game_data, ft_error_msg(NULL, ERR_MLX_IMG, 1));
 	image->addr = (int *)mlx_get_data_addr(image->img, &image->pixel_bits,
 			&image->size_line, &image->endian);
 	if (!image->addr)
