@@ -6,7 +6,7 @@
 /*   By: baguiar- <baguiar-@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 12:55:42 by baguiar-          #+#    #+#             */
-/*   Updated: 2025/03/25 22:39:15 by baguiar-         ###   ########.fr       */
+/*   Updated: 2025/03/25 22:45:19 by baguiar-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,6 +118,6 @@ void	ft_initialize_textures(t_game_data *game_data)
 				texture_paths[i]);
 		if (!game_data->textures[i])
 			ft_clean_and_exit(game_data,
-				ft_error_msg(NULL, ERR_TEXTURE_LOAD, 1));
+				ft_error_msg(NULL, ERR_TEX_LOAD, 1));
 	}
 }

@@ -6,7 +6,7 @@
 /*   By: baguiar- <baguiar-@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/23 13:27:42 by baguiar-          #+#    #+#             */
-/*   Updated: 2025/03/25 14:39:06 by baguiar-         ###   ########.fr       */
+/*   Updated: 2025/03/25 22:45:11 by baguiar-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,7 @@
 # define ERR_TEX_RGB_VAL "Error: RGB value out of range (between 0 and 255)"
 # define ERR_TEX_MISSING "Error: One or more textures missing"
 # define ERR_TEX_INVALID "Error: One or more textures invalid"
+# define ERR_TEX_LOAD "Error: One or more textures could not be loaded"
 # define ERR_COLOR_MISSING "Error: One or more colors missing"
 # define ERR_MAP_MISSING "Error: The map is missing from the file"
 # define ERR_MAP_TOO_SMALL "Error: The map must be at least 3 lines high"
