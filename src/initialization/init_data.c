@@ -61,26 +61,33 @@ void	ft_initialize_ray_data(t_ray *ray)
 
 void	ft_initialize_map_data(t_map_data *map_data)
 {
-	map_data->fd = 0;
-	map_data->line_count = 0;
-	map_data->path = NULL;
-	map_data->file = NULL;
-	map_data->map_height = 0;
-	map_data->map_width = 0;
-	map_data->end_found = 0;
+	// map_data->fd = 0;
+	// map_data->line_count = 0;
+	// map_data->path = NULL;
+	// map_data->file = NULL;
+	// map_data->map_height = 0;
+	// map_data->map_width = 0;
+	// map_data->end_found = 0;
+	if (map_data)
+		ft_memset(map_data, 0, sizeof(t_map_data));
 }
 
 // need to be refactored and moved to the appropriate initialization folder
 void	ft_initialize_data(t_game_data *game_data)
 {
-	game_data->mlx = NULL;
-	game_data->win = NULL;
-	game_data->win_height = SCREEN_HEIGHT;
-	game_data->win_width = SCREEN_WIDTH;
-	game_data->map = NULL;
-	game_data->texture_pixels = NULL;
-	game_data->textures = NULL;
-	ft_initialize_player_data(&game_data->player);
-	ft_initialize_map_data(&game_data->map_data);
-	ft_initialize_textures_data(&game_data->texture_data);
-} 
+	if (game_data)
+	{
+		ft_memset(game_data, 0, sizeof(t_game_data));
+		// game_data->mlx = NULL;
+		// game_data->win = NULL;
+		game_data->win_height = SCREEN_HEIGHT;
+		game_data->win_width = SCREEN_WIDTH;
+		// game_data->map = NULL;
+		// game_data->texture_pixels = NULL;
+		// game_data->textures = NULL;
+		ft_initialize_player_data(&game_data->player);
+		ft_initialize_map_data(&game_data->map_data);
+		ft_initialize_textures_data(&game_data->texture_data);
+	} 
+}
+	
