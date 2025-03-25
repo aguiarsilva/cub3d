@@ -17,19 +17,22 @@ void	ft_initialize_img_data(t_img_data *image)
 
 void  ft_init_ray_fpoint(t_ray_fpoint *ray_fpoint)
 {
-	ray_fpoint->camera_x = 0.0;
-	ray_fpoint->ray_dir_x = 0.0;
-	ray_fpoint->ray_dir_y = 0.0;
-	ray_fpoint->side_dist_x = 0.0;
-	ray_fpoint->side_dist_y = 0.0;
-	ray_fpoint->delta_dist_x = 0.0;
-	ray_fpoint->delta_dist_y = 0.0;
-	ray_fpoint->wall_dist = 0.0;
-	ray_fpoint->wall_x = 0.0;
+	// ray_fpoint->camera_x = 0.0;
+	// ray_fpoint->ray_dir_x = 0.0;
+	// ray_fpoint->ray_dir_y = 0.0;
+	// ray_fpoint->side_dist_x = 0.0;
+	// ray_fpoint->side_dist_y = 0.0;
+	// ray_fpoint->delta_dist_x = 0.0;
+	// ray_fpoint->delta_dist_y = 0.0;
+	// ray_fpoint->wall_dist = 0.0;
+	// ray_fpoint->wall_x = 0.0;
+	if (ray_fpoint)
+		ft_memset(image, 0, sizeof(t_ray_fpoint));
 }
 
 void	ft_initialize_ray_data(t_ray *ray)
 {
+	/*
 	// ray->camera_x = 0;
 	// ray->ray_dir_x = 0;
 	// ray->ray_dir_y = 0;
@@ -48,6 +51,12 @@ void	ft_initialize_ray_data(t_ray *ray)
 	ray->draw_end = 0;
 	// ray->wall_x = 0;
 	ft_init_ray_fpoint(&ray->ray_distance);
+	*/
+	if (ray)
+	{
+		ft_memset(ray, 0, sizeof(t_ray));
+		ft_init_ray_fpoint(&ray->ray_distance);
+	}
 }
 
 void	ft_initialize_map_data(t_map_data *map_data)
