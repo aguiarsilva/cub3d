@@ -27,7 +27,7 @@ void  ft_init_ray_fpoint(t_ray_fpoint *ray_fpoint)
 	// ray_fpoint->wall_dist = 0.0;
 	// ray_fpoint->wall_x = 0.0;
 	if (ray_fpoint)
-		ft_memset(image, 0, sizeof(t_ray_fpoint));
+		ft_memset(ray_fpoint, 0, sizeof(t_ray_fpoint));
 }
 
 void	ft_initialize_ray_data(t_ray *ray)
