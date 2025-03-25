@@ -1,76 +1,34 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   build_map.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: baguiar- <baguiar-@student.42wolfsburg.    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/03/25 22:49:02 by baguiar-          #+#    #+#             */
+/*   Updated: 2025/03/25 22:59:23 by baguiar-         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "cub3d.h"
 
-// int ft_build_map(t_game_data *game_data, char **file, int i)
-// {
-// 	int index_value, j;
-
-// 	// Count map lines
-// 	index_value = i;
-// 	while (file[i])
-// 	{
-// 		j = 0;
-// 		while (file[i][j] == ' ' || file[i][j] == '\t' || file[i][j] == '\r' || file[i][j] == '\v' || file[i][j] == '\f')
-// 			j++;
-// 		if (file[i][j] != '1')
-// 			break;
-// 		i++;
-// 	}
-// 	game_data->map_data.end_found = i;
-// 	game_data->map_data.map_height = i - index_value;
-
-// 	// Allocate and fill map
-// 	game_data->map_data.map_width = ft_max_width(&game_data->map_data, index_value);
-// 	game_data->map = malloc(sizeof(char *) * (game_data->map_data.map_height + 1));
-// 	if (!game_data->map)
-// 		return (ft_error_msg(NULL, ERR_MALLOC, STATUS_FAIL));
-
-// 	for (int row = 0, idx = index_value; row < game_data->map_data.map_height; row++, idx++)
-// 	{
-// 		j = 0;
-// 		game_data->map[row] = malloc(sizeof(char) * (game_data->map_data.map_width + 1));
-// 		if (!game_data->map[row])
-// 			return (ft_error_msg(NULL, ERR_MALLOC, STATUS_FAIL));
-// 		while (file[idx][j] && file[idx][j] != '\n')
-// 			game_data->map[row][j] = file[idx][j], j++;
-// 		while (j < game_data->map_data.map_width)
-// 			game_data->map[row][j++] = '\0';
-// 	}
-// 	game_data->map[game_data->map_data.map_height] = NULL;
-
-// 	// Convert spaces into walls
-// 	for (int row = 0; game_data->map[row]; row++)
-// 	{
-// 		j = 0;
-// 		while (game_data->map[row][j] == ' ' || game_data->map[row][j] == '\t' || game_data->map[row][j] == '\r' || game_data->map[row][j] == '\v' || game_data->map[row][j] == '\f')
-// 			j++;
-// 		while (game_data->map[row][++j])
-// 		{
-// 			if (game_data->map[row][j] == ' ' && j != game_data->map[row][ft_strlen(game_data->map[row]) - 1])
-// 				game_data->map[row][j] = '1';
-// 		}
-// 	}
-// 	return (STATUS_OK);
-// }
-
-
-int	ft_record_lines(t_game_data *game_data, char **file, int i)
+int	ft_record_lines(t_game_data *game_data, char **file, int start_index)
 {
-	int	index_value;
-	int	j;
+	int	current_index;
+	int	whitespace_index;
 
-	index_value = i;
-	while (file[i])
+	current_index = start_index;
+	while (file[current_index])
 	{
-		j = 0;
-		while (file[i][j] == ' ' || file[i][j] == '\t' || file[i][j] == '\r'
-		|| file[i][j] == '\v' || file[i][j] == '\f')
-			j++;
-		if (file[i][j] != '1')
+		whitespace_index = 0;
+		while (ft_isspace(file[current_index][whitespace_index]))
+			whitespace_index++;
+		if (file[current_index][whitespace_index] != '1')
 			break ;
-		i++;
+		current_index++;
 	}
-	game_data->map_data.end_found = i;
-	return (i - index_value);
+	game_data->map_data.end_found = current_index;
+	return (current_index - start_index);
 }
 
 int	ft_fill_map_table(t_map_data *map_data, char **map_table, int index)
@@ -90,7 +48,7 @@ int	ft_fill_map_table(t_map_data *map_data, char **map_table, int index)
 		{
 			map_table[i][j] = map_data->file[index][j];
 			j++;
-		}	
+		}
 		while (j < map_data->map_width)
 			map_table[i][j++] = '\0';
 		i++;
@@ -103,10 +61,12 @@ int	ft_fill_map_table(t_map_data *map_data, char **map_table, int index)
 int	ft_get_map_data(t_game_data *game_data, char **file, int i)
 {
 	game_data->map_data.map_height = ft_record_lines(game_data, file, i);
-	game_data->map = malloc(sizeof(char *) * (game_data->map_data.map_height + 1));
+	game_data->map
+		= malloc(sizeof(char *) * (game_data->map_data.map_height + 1));
 	if (!game_data->map)
 		return (ft_error_msg(NULL, ERR_MALLOC, STATUS_FAIL));
-	if (ft_fill_map_table(&game_data->map_data, game_data->map, i) == STATUS_FAIL)
+	if (ft_fill_map_table(&game_data->map_data, game_data->map, i)
+		== STATUS_FAIL)
 		return (STATUS_FAIL);
 	return (STATUS_OK);
 }
