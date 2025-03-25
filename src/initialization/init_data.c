@@ -5,11 +5,14 @@
 //Initilize image data function
 void	ft_initialize_img_data(t_img_data *image)
 {
+	/*
 	image->img = NULL;
 	image->addr = NULL;
 	image->pixel_bits = 0;
 	image->size_line = 0;
 	image->endian = 0;
+	*/
+	ft_memset(image, 0, sizeof(t_img_data));
 }
 
 void  ft_init_ray_fpoint(t_ray_fpoint *ray_fpoint)
