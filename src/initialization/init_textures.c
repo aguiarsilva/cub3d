@@ -6,7 +6,7 @@
 /*   By: baguiar- <baguiar-@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 12:55:42 by baguiar-          #+#    #+#             */
-/*   Updated: 2025/03/25 15:06:30 by baguiar-         ###   ########.fr       */
+/*   Updated: 2025/03/25 22:39:15 by baguiar-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,14 +57,12 @@ void	ft_get_graphic_location(t_game_data *game_data, t_ray *ray)
 			game_data->texture_data.config_found = DIR_WEST;
 		else
 			game_data->texture_data.config_found = DIR_EAST;
+		return ;
 	}
+	if (ray->ray_distance.ray_dir_y > 0)
+		game_data->texture_data.config_found = DIR_SOUTH;
 	else
-	{
-		if (ray->ray_distance.ray_dir_y > 0)
-			game_data->texture_data.config_found = DIR_SOUTH;
-		else
-			game_data->texture_data.config_found = DIR_NORTH;
-	}
+		game_data->texture_data.config_found = DIR_NORTH;
 }
 
 void	ft_update_graphic_pixels(t_game_data *game_data,
@@ -99,15 +97,27 @@ void	ft_update_graphic_pixels(t_game_data *game_data,
 
 void	ft_initialize_textures(t_game_data *game_data)
 {
+	char	*texture_paths[4];
+	int		i;
+
+	texture_paths[DIR_NORTH]
+		= game_data->texture_data.texture_config.no_texture_path;
+	texture_paths[DIR_SOUTH]
+		= game_data->texture_data.texture_config.so_texture_path;
+	texture_paths[DIR_WEST]
+		= game_data->texture_data.texture_config.we_texture_path;
+	texture_paths[DIR_EAST]
+		= game_data->texture_data.texture_config.ea_texture_path;
 	game_data->textures = ft_calloc(5, sizeof * game_data->textures);
 	if (!game_data->textures)
 		ft_clean_and_exit(game_data, ft_error_msg(NULL, ERR_MALLOC, 1));
-	game_data->textures[DIR_NORTH] = ft_convert_xpm_to_img(game_data,
-			game_data->texture_data.texture_config.no_texture_path);
-	game_data->textures[DIR_SOUTH] = ft_convert_xpm_to_img(game_data,
-			game_data->texture_data.texture_config.so_texture_path);
-	game_data->textures[DIR_WEST] = ft_convert_xpm_to_img(game_data,
-			game_data->texture_data.texture_config.we_texture_path);
-	game_data->textures[DIR_EAST] = ft_convert_xpm_to_img(game_data,
-			game_data->texture_data.texture_config.ea_texture_path);
+	i = -1;
+	while (++i < 4)
+	{
+		game_data->textures[i] = ft_convert_xpm_to_img(game_data,
+				texture_paths[i]);
+		if (!game_data->textures[i])
+			ft_clean_and_exit(game_data,
+				ft_error_msg(NULL, ERR_TEXTURE_LOAD, 1));
+	}
 }
