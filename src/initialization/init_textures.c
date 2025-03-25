@@ -3,36 +3,51 @@
 /*                                                        :::      ::::::::   */
 /*   init_textures.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: baguiar- <baguiar-@student.42wolfsburg.de  +#+  +:+       +#+        */
+/*   By: baguiar- <baguiar-@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 12:55:42 by baguiar-          #+#    #+#             */
-/*   Updated: 2025/03/25 12:55:45 by baguiar-         ###   ########.fr       */
+/*   Updated: 2025/03/25 15:06:30 by baguiar-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <cub3d.h>
 
+void	ft_initialize_textures_data(t_texture_data *textures)
+{
+	if (!textures)
+		return ;
+	ft_memset(textures, 0, sizeof(t_texture_data));
+	textures->size = TEXTURE_SIZE;
+	textures->hex_floor = 0x0;
+	textures->hex_ceiling = 0x0;
+	textures->texture_config.no_texture_path = NULL;
+	textures->texture_config.so_texture_path = NULL;
+	textures->texture_config.we_texture_path = NULL;
+	textures->texture_config.ea_texture_path = NULL;
+}
+
 void	ft_initialize_graphic_pixels(t_game_data *game_data)
 {
-	int	i;
+	int		i;
+	size_t	pixel_size;
 
 	if (game_data->texture_pixels)
 		ft_free_table((void **)game_data->texture_pixels);
+	pixel_size = sizeof(*game_data->texture_pixels);
 	game_data->texture_pixels = ft_calloc(game_data->win_height + 1,
-			sizeof * game_data->texture_pixels);
+			pixel_size);
 	if (!game_data->texture_pixels)
 		ft_clean_and_exit(game_data, ft_error_msg(NULL, ERR_MALLOC, 1));
 	i = 0;
 	while (i < game_data->win_height)
 	{
 		game_data->texture_pixels[i] = ft_calloc(game_data->win_width + 1,
-				sizeof * game_data->texture_pixels);
+				pixel_size);
 		if (!game_data->texture_pixels[i])
 			ft_clean_and_exit(game_data, ft_error_msg(NULL, ERR_MALLOC, 1));
 		i++;
 	}
 }
-
 
 void	ft_get_graphic_location(t_game_data *game_data, t_ray *ray)
 {
@@ -52,7 +67,8 @@ void	ft_get_graphic_location(t_game_data *game_data, t_ray *ray)
 	}
 }
 
-void	ft_update_graphic_pixels(t_game_data *game_data, t_texture_data *texture, t_ray *ray, int x)
+void	ft_update_graphic_pixels(t_game_data *game_data,
+		t_texture_data *texture, t_ray *ray, int x)
 {
 	int			y;
 	int			color;
@@ -70,8 +86,10 @@ void	ft_update_graphic_pixels(t_game_data *game_data, t_texture_data *texture, t
 	{
 		texture->y_dir = (int)texture->pos & (texture->size - 1);
 		texture->pos += texture->step;
-		color = game_data->textures[texture->config_found][texture->size * texture->y_dir + texture->x_dir];
-		if (texture->config_found == DIR_NORTH || texture->config_found == DIR_EAST)
+		color = game_data->textures[texture->config_found]
+		[texture->size * texture->y_dir + texture->x_dir];
+		if (texture->config_found == DIR_NORTH
+			|| texture->config_found == DIR_EAST)
 			color = (color >> 1) & 8355711;
 		if (color > 0)
 			game_data->texture_pixels[y][x] = color;
@@ -84,28 +102,12 @@ void	ft_initialize_textures(t_game_data *game_data)
 	game_data->textures = ft_calloc(5, sizeof * game_data->textures);
 	if (!game_data->textures)
 		ft_clean_and_exit(game_data, ft_error_msg(NULL, ERR_MALLOC, 1));
-	game_data->textures[DIR_NORTH] = ft_convert_xpm_to_img(game_data, game_data->texture_data.texture_config.no_texture_path);
-	game_data->textures[DIR_SOUTH] = ft_convert_xpm_to_img(game_data, game_data->texture_data.texture_config.so_texture_path);
-	game_data->textures[DIR_WEST] = ft_convert_xpm_to_img(game_data, game_data->texture_data.texture_config.we_texture_path);
-	game_data->textures[DIR_EAST] = ft_convert_xpm_to_img(game_data, game_data->texture_data.texture_config.ea_texture_path);
-}
-
-
-//intialize textures values
-void ft_initialize_textures_data(t_texture_data *textures)
-{
-    textures->texture_config.ceiling_color = 0;
-    textures->texture_config.floor_color = 0;
-    textures->texture_config.no_texture_path = NULL;
-    textures->texture_config.so_texture_path = NULL;
-    textures->texture_config.we_texture_path = NULL;
-    textures->texture_config.ea_texture_path = NULL;
-    textures->hex_floor = 0x0;
-    textures->hex_ceiling = 0x0;
-    textures->size = TEXTURE_SIZE;
-    textures->step = 0.0;
-    textures->pos = 0.0;
-    textures->x_dir = 0;
-    textures->y_dir = 0;
-    
+	game_data->textures[DIR_NORTH] = ft_convert_xpm_to_img(game_data,
+			game_data->texture_data.texture_config.no_texture_path);
+	game_data->textures[DIR_SOUTH] = ft_convert_xpm_to_img(game_data,
+			game_data->texture_data.texture_config.so_texture_path);
+	game_data->textures[DIR_WEST] = ft_convert_xpm_to_img(game_data,
+			game_data->texture_data.texture_config.we_texture_path);
+	game_data->textures[DIR_EAST] = ft_convert_xpm_to_img(game_data,
+			game_data->texture_data.texture_config.ea_texture_path);
 }
