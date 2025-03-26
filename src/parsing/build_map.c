@@ -6,7 +6,7 @@
 /*   By: baguiar- <baguiar-@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 22:49:02 by baguiar-          #+#    #+#             */
-/*   Updated: 2025/03/25 22:59:23 by baguiar-         ###   ########.fr       */
+/*   Updated: 2025/03/26 12:32:21 by baguiar-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,28 +33,28 @@ int	ft_record_lines(t_game_data *game_data, char **file, int start_index)
 
 int	ft_fill_map_table(t_map_data *map_data, char **map_table, int index)
 {
-	int		i;
-	int		j;
+	int	row;
+	int	col;
 
 	map_data->map_width = ft_max_width(map_data, index);
-	i = 0;
-	while (i < map_data->map_height)
+	row = -1;
+	while (++row < map_data->map_height)
 	{
-		j = 0;
-		map_table[i] = malloc(sizeof(char) * (map_data->map_width + 1));
-		if (!map_table[i])
+		map_table[row] = malloc(sizeof(char) * (map_data->map_width + 1));
+		if (!map_table[row])
 			return (ft_error_msg(NULL, ERR_MALLOC, STATUS_FAIL));
-		while (map_data->file[index][j] && map_data->file[index][j] != '\n')
+		col = 0;
+		while (map_data->file[index][col] &&
+				map_data->file[index][col] != '\n')
 		{
-			map_table[i][j] = map_data->file[index][j];
-			j++;
+			map_table[row][col] = map_data->file[index][col];
+			col++;
 		}
-		while (j < map_data->map_width)
-			map_table[i][j++] = '\0';
-		i++;
+		while (col < map_data->map_width)
+			map_table[row][col++] = '\0';
 		index++;
 	}
-	map_table[i] = NULL;
+	map_table[row] = NULL;
 	return (STATUS_OK);
 }
 
@@ -73,24 +73,24 @@ int	ft_get_map_data(t_game_data *game_data, char **file, int i)
 
 void	ft_convert_space_to_wall(t_game_data *game_data)
 {
-	int	i;
-	int	j;
+	int	row;
+	int	col;
+	int	line_length;
 
-	i = 0;
-	while (game_data->map[i])
+	row = -1;
+	while (game_data->map[++row])
 	{
-		j = 0;
-		while (game_data->map[i][j] == ' ' || game_data->map[i][j] == '\t'
-		|| game_data->map[i][j] == '\r'
-		|| game_data->map[i][j] == '\v' || game_data->map[i][j] == '\f')
-			j++;
-		while (game_data->map[i][++j])
+		col = 0;
+		while (ft_isspace(game_data->map[row][col]))
+			col++;
+		line_length = ft_strlen(game_data->map[row]);
+		while (game_data->map[row][col])
 		{
-			if (game_data->map[i][j] == ' '
-				&& j != game_data->map[i][ft_strlen(game_data->map[i]) - 1])
-				game_data->map[i][j] = '1';
+			if (game_data->map[row][col] == ' '
+				&& col != line_len - 1)
+				game_data->map[row][col] = '1';
+			col++;
 		}
-		i++;
 	}
 }
 
