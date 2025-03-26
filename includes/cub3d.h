@@ -6,7 +6,7 @@
 /*   By: baguiar- <baguiar-@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/23 13:27:42 by baguiar-          #+#    #+#             */
-/*   Updated: 2025/03/26 15:33:14 by baguiar-         ###   ########.fr       */
+/*   Updated: 2025/03/26 21:31:54 by baguiar-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -290,7 +290,7 @@ int				ft_find_and_set_player_position(t_game_data *game_data,
 
 // validate_textures.c
 int				ft_validate_rgb(int *rgb);
-unsigned long	ft_convert_rgb_to_hex(int *rgb_tab);
+unsigned long	ft_con_rgb_hex(int *rgb_tab);
 int				ft_validate_textures_map(t_game_data *game_data,
 					t_texture_data *textures);
 

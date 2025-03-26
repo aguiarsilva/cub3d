@@ -14,7 +14,7 @@ int	ft_validate_rgb(int *rgb)
 	return (STATUS_OK);
 }
 
-unsigned long	ft_convert_rgb_to_hex(int *rgb_tab)
+unsigned long	ft_con_rgb_hex(int *rgb_tab)
 {
 	unsigned long	result;
 	int				r;
@@ -51,9 +51,7 @@ int	ft_validate_textures_map(t_game_data *game_data, t_texture_data *textures)
 		|| ft_validate_rgb(textures->text_config.floor_color) == STATUS_FAIL
 		|| ft_validate_rgb(textures->text_config.ceiling_color) == STATUS_FAIL)
 		return (STATUS_FAIL);
-	textures->hex_floor
-		= ft_convert_rgb_to_hex(textures->text_config.floor_color);
-	textures->hex_ceiling
-		= ft_convert_rgb_to_hex(textures->text_config.ceiling_color);
+	textures->hex_floor = ft_con_rgb_hex(textures->text_config.floor_color);
+	textures->hex_ceiling = ft_con_rgb_hex(textures->text_config.ceiling_color);
 	return (STATUS_OK);
 }
