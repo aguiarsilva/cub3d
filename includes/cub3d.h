@@ -6,7 +6,7 @@
 /*   By: baguiar- <baguiar-@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/23 13:27:42 by baguiar-          #+#    #+#             */
-/*   Updated: 2025/03/26 21:31:54 by baguiar-         ###   ########.fr       */
+/*   Updated: 2025/03/26 22:01:05 by baguiar-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -304,12 +304,14 @@ bool			is_valid_position(t_game_data *game_data, double x,
 int				ft_validate_movement(t_game_data *game_data, double next_x,
 					double next_y);
 
-// player_movement.c
+// event_handler.c
 int				ft_handle_key_press(int key_code, t_game_data *game_data);
 int				ft_handle_key_release(int key_code, t_game_data *game_data);
 void			ft_adjust_mouse_position(t_game_data *game_data, int x, int y);
 int				ft_handle_mouse_motion(int x, int y, t_game_data *game_data);
 void			ft_setup_input_listeners(t_game_data *game_data);
+
+// player_movement.c
 int				ft_move_forward(t_game_data *game_data);
 int				ft_move_backward(t_game_data *game_data);
 int				ft_move_left(t_game_data *game_data);
