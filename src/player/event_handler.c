@@ -75,4 +75,6 @@ void	ft_setup_input_listeners(t_game_data *game_data)
 		game_data);
 	mlx_hook(game_data->win, KeyRelease, KeyReleaseMask, ft_handle_key_release,
 		game_data);
+	mlx_hook(game_data->win, MotionNotify, PointerMotionMask,
+		ft_handle_mouse_motion, game_data);
 }
