@@ -6,7 +6,7 @@
 /*   By: baguiar- <baguiar-@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/23 13:27:42 by baguiar-          #+#    #+#             */
-/*   Updated: 2025/03/26 15:37:18 by baguiar-         ###   ########.fr       */
+/*   Updated: 2025/03/26 15:33:14 by baguiar-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,9 +60,9 @@
 # define ERR_INV_LETTER "Error: The map contains an invalid character"
 # define ERR_NUM_PLAYER "Error: The map contains more than one player"
 # define ERR_TEX_RGB_VAL "Error: RGB value out of range (between 0 and 255)"
-# define ERR_TEX_MISSING "Error: One or more texts missing"
-# define ERR_TEX_INVALID "Error: One or more texts invalid"
-# define ERR_TEX_LOAD "Error: One or more texts could not be loaded"
+# define ERR_TEX_MISSING "Error: One or more textures missing"
+# define ERR_TEX_INVALID "Error: One or more textures invalid"
+# define ERR_TEX_LOAD "Error: One or more textures could not be loaded"
 # define ERR_COLOR_MISSING "Error: One or more colors missing"
 # define ERR_MAP_MISSING "Error: The map is missing from the file"
 # define ERR_MAP_TOO_SMALL "Error: The map must be at least 3 lines high"
@@ -202,7 +202,7 @@ typedef struct s_game_data
 	int				win_height;
 	int				win_width;
 	int				**texture_pixels;
-	int				**texts;
+	int				**textures;
 	char			**map;
 	t_player		player;
 	t_ray			ray;
@@ -232,13 +232,13 @@ void			ft_initialize_player_direction(t_game_data *game_data);
 void			ft_initialize_player_data(t_player *player);
 void			ft_initialize_movemement_direction(t_player *player);
 
-// init_texts.c
+// init_textures.c
 void			ft_initialize_graphic_pixels(t_game_data *game_data);
 void			ft_get_graphic_location(t_game_data *game_data, t_ray *ray);
 void			ft_update_graphic_pixels(t_game_data *game_data,
 					t_texture_data *texture, t_ray *ray, int x);
-void			ft_initialize_texts(t_game_data *game_data);
-void			ft_initialize_texts_data(t_texture_data *texts);
+void			ft_initialize_textures(t_game_data *game_data);
+void			ft_initialize_textures_data(t_texture_data *textures);
 
 // parsing.c
 int				ft_record_lines(t_game_data *game_data, char **file, int i);
@@ -262,7 +262,7 @@ int				ft_parse_arguments(t_game_data *game_data, char **argv);
 
 // parse_map.c
 char			*ft_get_text_path(char *line, int j);
-int				ft_fill_direction(t_texture_data *texts, char *line, int j);
+int				ft_fill_direction(t_texture_data *textures, char *line, int j);
 int				ft_handle_space_get_data(t_game_data *game_data,
 					char **map, int i, int j);
 int				ft_get_gamefiles_data(t_game_data *game_data, char **map);
@@ -288,11 +288,11 @@ int				ft_check_player_direction(t_game_data *game_data);
 int				ft_find_and_set_player_position(t_game_data *game_data, 
 					char **map_table);
 
-// validate_texts.c
+// validate_textures.c
 int				ft_validate_rgb(int *rgb);
 unsigned long	ft_convert_rgb_to_hex(int *rgb_tab);
-int				ft_validate_texts_map(t_game_data *game_data,
-					t_texture_data *texts);
+int				ft_validate_textures_map(t_game_data *game_data,
+					t_texture_data *textures);
 
 // collision_detection.c
 bool			is_valid_wall_position(t_game_data *game_data, double x,
@@ -332,7 +332,7 @@ int				ft_raycasting(t_player *player, t_game_data *game_data);
 
 // render_minimap.c
 
-// render_texts.c
+// render_textures.c
 int				*ft_convert_xpm_to_img(t_game_data *game_data, char *path);
 
 // render.c
@@ -353,13 +353,13 @@ void			ft_set_image_pixel(t_img_data *image, int x, int y,
 int				*ft_move_to_rgb_contents(char **rgb_to_convert, int *rgb);
 int				*ft_compose_rgb_colors(char *line);
 int				ft_fill_rgb_color(t_game_data *game_data,
-					t_texture_data *texts, char *line, int j);
+					t_texture_data *textures, char *line, int j);
 int				ft_handle_texture_or_color(t_game_data *game_data,
 					char **map, int i, int j);
 
 // memory_management.c
 void			ft_free_table(void **table);
-void			ft_free_texture_data(t_texture_data *texts);
+void			ft_free_texture_data(t_texture_data *textures);
 void			ft_free_map_table(t_game_data *game_data);
 int				ft_free_game_data(t_game_data *game_data);
 void			ft_clean_and_exit(t_game_data *game_data, int exit_code);

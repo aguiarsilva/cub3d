@@ -47,6 +47,6 @@ void	ft_initialize_data(t_game_data *game_data)
 		game_data->win_width = SCREEN_WIDTH;
 		ft_initialize_player_data(&game_data->player);
 		ft_initialize_map_data(&game_data->map_data);
-		ft_initialize_texts_data(&game_data->texture_data);
+		ft_initialize_textures_data(&game_data->texture_data);
 	}
 }

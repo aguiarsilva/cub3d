@@ -1,3 +1,3 @@
-# SimonKraft texts
+# SimonKraft Textures
 
-These texts are part of the SimonKraft Minecraft texture pack. It is available in full at [planetminecraft.com](https://www.planetminecraft.com/texture-pack/simonkraft/).
+These textures are part of the SimonKraft Minecraft texture pack. It is available in full at [planetminecraft.com](https://www.planetminecraft.com/texture-pack/simonkraft/).

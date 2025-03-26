@@ -6,7 +6,7 @@
 /*   By: baguiar- <baguiar-@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/05 15:33:07 by dsamuel           #+#    #+#             */
-/*   Updated: 2025/03/26 15:37:18 by baguiar-         ###   ########.fr       */
+/*   Updated: 2025/03/26 13:14:59 by baguiar-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ int	main(int argc, char **argv)
 	if (ft_parse_arguments(&game_data, argv) != 0)
 		return (1);
 	ft_initialize_mlx_screen(&game_data);
-	ft_initialize_texts(&game_data);
+	ft_initialize_textures(&game_data);
 	ft_generate_render_images(&game_data);
 	ft_setup_input_listeners(&game_data);
 	mlx_loop_hook(game_data.mlx, ft_render, &game_data);

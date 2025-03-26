@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   init_texts.c                                    :+:      :+:    :+:   */
+/*   init_textures.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: baguiar- <baguiar-@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -12,18 +12,18 @@
 
 #include <cub3d.h>
 
-void	ft_initialize_texts_data(t_texture_data *texts)
+void	ft_initialize_textures_data(t_texture_data *textures)
 {
-	if (!texts)
+	if (!textures)
 		return ;
-	ft_memset(texts, 0, sizeof(t_texture_data));
-	texts->size = TEXTURE_SIZE;
-	texts->hex_floor = 0x0;
-	texts->hex_ceiling = 0x0;
-	texts->text_config.no_text_path = NULL;
-	texts->text_config.so_text_path = NULL;
-	texts->text_config.we_text_path = NULL;
-	texts->text_config.ea_text_path = NULL;
+	ft_memset(textures, 0, sizeof(t_texture_data));
+	textures->size = TEXTURE_SIZE;
+	textures->hex_floor = 0x0;
+	textures->hex_ceiling = 0x0;
+	textures->text_config.no_text_path = NULL;
+	textures->text_config.so_text_path = NULL;
+	textures->text_config.we_text_path = NULL;
+	textures->text_config.ea_text_path = NULL;
 }
 
 void	ft_initialize_graphic_pixels(t_game_data *game_data)
@@ -84,7 +84,7 @@ void	ft_update_graphic_pixels(t_game_data *game_data,
 	{
 		texture->y_dir = (int)texture->pos & (texture->size - 1);
 		texture->pos += texture->step;
-		color = game_data->texts[texture->config_found]
+		color = game_data->textures[texture->config_found]
 		[texture->size * texture->y_dir + texture->x_dir];
 		if (texture->config_found == DIR_NORTH
 			|| texture->config_found == DIR_EAST)
@@ -95,7 +95,7 @@ void	ft_update_graphic_pixels(t_game_data *game_data,
 	}
 }
 
-void	ft_initialize_texts(t_game_data *game_data)
+void	ft_initialize_textures(t_game_data *game_data)
 {
 	char	*text_paths[4];
 	int		i;
@@ -108,15 +108,15 @@ void	ft_initialize_texts(t_game_data *game_data)
 		= game_data->texture_data.text_config.we_text_path;
 	text_paths[DIR_EAST]
 		= game_data->texture_data.text_config.ea_text_path;
-	game_data->texts = ft_calloc(5, sizeof * game_data->texts);
-	if (!game_data->texts)
+	game_data->textures = ft_calloc(5, sizeof * game_data->textures);
+	if (!game_data->textures)
 		ft_clean_and_exit(game_data, ft_error_msg(NULL, ERR_MALLOC, 1));
 	i = -1;
 	while (++i < 4)
 	{
-		game_data->texts[i] = ft_convert_xpm_to_img(game_data,
+		game_data->textures[i] = ft_convert_xpm_to_img(game_data,
 				text_paths[i]);
-		if (!game_data->texts[i])
+		if (!game_data->textures[i])
 			ft_clean_and_exit(game_data,
 				ft_error_msg(NULL, ERR_TEX_LOAD, 1));
 	}
