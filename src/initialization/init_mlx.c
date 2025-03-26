@@ -45,7 +45,6 @@ void	ft_initialize_texture_img(t_game_data *game_data, t_img_data *image,
 		ft_clean_and_exit(game_data, ft_error_msg(NULL, ERR_MLX_IMG, 1));
 }
 
-// initialize screen and handle basic events as describe in this milestone
 void	ft_initialize_mlx_screen(t_game_data *game_data)
 {
 	if (!game_data)
@@ -53,19 +52,12 @@ void	ft_initialize_mlx_screen(t_game_data *game_data)
 	game_data->mlx = mlx_init();
 	if (!game_data->mlx)
 	{
-		// printf("did not work");
-		// exit(1);
-		// implement clean and exit function
 		ft_clean_and_exit(game_data, ft_error_msg("NULL", ERR_MLX_START, 1));
 	}
 	game_data->win = mlx_new_window(game_data->mlx, SCREEN_WIDTH,
 			SCREEN_HEIGHT, "cub3d");
 	if (!game_data->win)
 	{
-		// printf("window did start");
-		// exit(1);
-		// implement clean and exit function
 		ft_clean_and_exit(game_data, ft_error_msg("NULL", ERR_MLX_WIN, 1));
 	}
-	// implement more feature here just basic start
 }

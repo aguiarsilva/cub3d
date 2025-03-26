@@ -6,7 +6,7 @@
 /*   By: baguiar- <baguiar-@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/23 13:27:42 by baguiar-          #+#    #+#             */
-/*   Updated: 2025/03/26 22:01:05 by baguiar-         ###   ########.fr       */
+/*   Updated: 2025/03/26 23:01:03 by baguiar-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -259,6 +259,7 @@ void			ft_fill_table(int row, int column, int i,
 					t_game_data *game_data);
 void			ft_parse_game_data(char *path, t_game_data *game_data);
 int				ft_parse_arguments(t_game_data *game_data, char **argv);
+int				ft_exit_game(t_game_data *game_data);
 
 // parse_map.c
 char			*ft_get_text_path(char *line, int j);
@@ -285,7 +286,7 @@ int				ft_validate_player_position(t_game_data *game_data,
 int				ft_handle_player_direction(t_game_data *game_data,
 					char current_char);
 int				ft_check_player_direction(t_game_data *game_data);
-int				ft_find_and_set_player_position(t_game_data *game_data, 
+int				ft_find_and_set_player_position(t_game_data *game_data,
 					char **map_table);
 
 // validate_textures.c
@@ -365,7 +366,6 @@ void			ft_free_texture_data(t_texture_data *textures);
 void			ft_free_map_table(t_game_data *game_data);
 int				ft_free_game_data(t_game_data *game_data);
 void			ft_clean_and_exit(t_game_data *game_data, int exit_code);
-int				ft_exit_game(t_game_data *game_data);
 
 // parsing_utils.c
 int				ft_empty_char(char c);

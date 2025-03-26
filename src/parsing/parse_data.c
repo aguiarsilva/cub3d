@@ -93,3 +93,9 @@ int	ft_parse_arguments(t_game_data *game_data, char **argv)
 	ft_initialize_player_direction(game_data);
 	return (0);
 }
+
+int	ft_exit_game(t_game_data *game_data)
+{
+	ft_clean_and_exit(game_data, 0);
+	return (0);
+}
