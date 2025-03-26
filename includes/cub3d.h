@@ -6,7 +6,7 @@
 /*   By: baguiar- <baguiar-@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/23 13:27:42 by baguiar-          #+#    #+#             */
-/*   Updated: 2025/03/25 22:45:11 by baguiar-         ###   ########.fr       */
+/*   Updated: 2025/03/26 14:24:56 by baguiar-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -341,6 +341,12 @@ int				ft_error_val(int arg, char *str, int er_code);
 // graphic_utils.c
 void			ft_set_image_pixel(t_img_data *image, int x, int y,
 					int color_val);
+int				*ft_move_to_rgb_contents(char **rgb_to_convert, int *rgb);
+int				*ft_compose_rgb_colors(char *line);
+int				ft_fill_rgb_color(t_game_data *game_data,
+					t_texture_data *textures, char *line, int j);
+int				ft_handle_texture_or_color(t_game_data *game_data,
+					char **map, int i, int j);
 
 // memory_management.c
 void			ft_free_table(void **table);
@@ -354,9 +360,6 @@ int				ft_exit_game(t_game_data *game_data);
 int				ft_empty_char(char c);
 size_t			ft_max_width(t_map_data *map_data, int i);
 bool			ft_comfirm_digit_absence(char *str);
-int				*ft_move_to_rgb_contents(char **rgb_to_convert, int *rgb);
-int				*ft_compose_rgb_colors(char *line);
-int				ft_fill_rgb_color(t_game_data *game_data,
-					t_texture_data *textures, char *line, int j);
+int				ft_skip_whitespace(char *line, int *index);
 
 #endif
