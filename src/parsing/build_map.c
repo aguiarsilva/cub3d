@@ -6,7 +6,7 @@
 /*   By: baguiar- <baguiar-@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 22:49:02 by baguiar-          #+#    #+#             */
-/*   Updated: 2025/03/26 12:32:21 by baguiar-         ###   ########.fr       */
+/*   Updated: 2025/03/26 12:38:55 by baguiar-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,7 @@ void	ft_convert_space_to_wall(t_game_data *game_data)
 		while (game_data->map[row][col])
 		{
 			if (game_data->map[row][col] == ' '
-				&& col != line_len - 1)
+				&& col != line_length - 1)
 				game_data->map[row][col] = '1';
 			col++;
 		}
