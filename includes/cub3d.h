@@ -6,7 +6,7 @@
 /*   By: baguiar- <baguiar-@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/23 13:27:42 by baguiar-          #+#    #+#             */
-/*   Updated: 2025/03/26 14:39:28 by baguiar-         ###   ########.fr       */
+/*   Updated: 2025/03/26 15:03:32 by baguiar-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -282,6 +282,8 @@ int				ft_validate_position(t_game_data *game_data,
 					char **map_table);
 int				ft_validate_player_position(t_game_data *game_data,
 					char **map_table);
+int				ft_handle_player_direction(t_game_data *game_data,
+					char current_char);
 
 // validate_textures.c
 int				ft_validate_rgb(int *rgb);
@@ -365,5 +367,6 @@ int				ft_empty_char(char c);
 size_t			ft_max_width(t_map_data *map_data, int i);
 bool			ft_comfirm_digit_absence(char *str);
 int				ft_skip_whitespace(char *line, int *index);
+int				ft_validate_map_char(t_game_data *game_data, char current_char);
 
 #endif
