@@ -30,19 +30,30 @@ unsigned long	ft_convert_rgb_to_hex(int *rgb_tab)
 
 int	ft_validate_textures_map(t_game_data *game_data, t_texture_data *textures)
 {
-	if (!textures->texture_config.no_texture_path || !textures->texture_config.so_texture_path || !textures->texture_config.we_texture_path
-		|| !textures->texture_config.ea_texture_path)
-		return (ft_error_msg(game_data->map_data.path, ERR_TEX_MISSING, STATUS_FAIL));
-	if (!textures->texture_config.floor_color || !textures->texture_config.ceiling_color)
-		return (ft_error_msg(game_data->map_data.path, ERR_COLOR_MISSING, STATUS_FAIL));
-	if (ft_file_and_dir_checker(textures->texture_config.no_texture_path, false) == STATUS_FAIL
-		|| ft_file_and_dir_checker(textures->texture_config.so_texture_path, false) == STATUS_FAIL
-		|| ft_file_and_dir_checker(textures->texture_config.we_texture_path, false) == STATUS_FAIL
-		|| ft_file_and_dir_checker(textures->texture_config.ea_texture_path, false) == STATUS_FAIL
-		|| ft_validate_rgb(textures->texture_config.floor_color) == STATUS_FAIL
-		|| ft_validate_rgb(textures->texture_config.ceiling_color) == STATUS_FAIL)
+	if (!textures->text_config.no_text_path
+		|| !textures->text_config.so_text_path
+		|| !textures->text_config.we_text_path
+		|| !textures->text_config.ea_text_path)
+		return (ft_error_msg(game_data->map_data.path,
+				ERR_TEX_MISSING, STATUS_FAIL));
+	if (!textures->text_config.floor_color
+		|| !textures->text_config.ceiling_color)
+		return (ft_error_msg(game_data->map_data.path,
+				ERR_COLOR_MISSING, STATUS_FAIL));
+	if (ft_file_and_dir_checker(textures->text_config.no_text_path,
+			false) == STATUS_FAIL
+		|| ft_file_and_dir_checker(textures->text_config.so_text_path,
+			false) == STATUS_FAIL
+		|| ft_file_and_dir_checker(textures->text_config.we_text_path,
+			false) == STATUS_FAIL
+		|| ft_file_and_dir_checker(textures->text_config.ea_text_path,
+			false) == STATUS_FAIL
+		|| ft_validate_rgb(textures->text_config.floor_color) == STATUS_FAIL
+		|| ft_validate_rgb(textures->text_config.ceiling_color) == STATUS_FAIL)
 		return (STATUS_FAIL);
-	textures->hex_floor = ft_convert_rgb_to_hex(textures->texture_config.floor_color);
-	textures->hex_ceiling = ft_convert_rgb_to_hex(textures->texture_config.ceiling_color);
+	textures->hex_floor
+		= ft_convert_rgb_to_hex(textures->text_config.floor_color);
+	textures->hex_ceiling
+		= ft_convert_rgb_to_hex(textures->text_config.ceiling_color);
 	return (STATUS_OK);
 }

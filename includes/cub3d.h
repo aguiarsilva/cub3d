@@ -6,7 +6,7 @@
 /*   By: baguiar- <baguiar-@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/23 13:27:42 by baguiar-          #+#    #+#             */
-/*   Updated: 2025/03/26 15:17:13 by baguiar-         ###   ########.fr       */
+/*   Updated: 2025/03/26 15:33:14 by baguiar-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,10 +127,10 @@ typedef struct s_config
 {
 	int		*floor_color;
 	int		*ceiling_color;
-	char	*no_texture_path;
-	char	*so_texture_path;
-	char	*we_texture_path;
-	char	*ea_texture_path;
+	char	*no_text_path;
+	char	*so_text_path;
+	char	*we_text_path;
+	char	*ea_text_path;
 }	t_config;
 
 typedef struct s_texture_data
@@ -143,7 +143,7 @@ typedef struct s_texture_data
 	unsigned long	hex_ceiling;
 	double			step;
 	double			pos;
-	t_config		texture_config;
+	t_config		text_config;
 }	t_texture_data;
 
 typedef struct s_movement
@@ -261,7 +261,7 @@ void			ft_parse_game_data(char *path, t_game_data *game_data);
 int				ft_parse_arguments(t_game_data *game_data, char **argv);
 
 // parse_map.c
-char			*ft_get_texture_path(char *line, int j);
+char			*ft_get_text_path(char *line, int j);
 int				ft_fill_direction(t_texture_data *textures, char *line, int j);
 int				ft_handle_space_get_data(t_game_data *game_data,
 					char **map, int i, int j);

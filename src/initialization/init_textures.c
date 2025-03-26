@@ -6,7 +6,7 @@
 /*   By: baguiar- <baguiar-@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 12:55:42 by baguiar-          #+#    #+#             */
-/*   Updated: 2025/03/25 22:45:19 by baguiar-         ###   ########.fr       */
+/*   Updated: 2025/03/26 15:33:14 by baguiar-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,10 +20,10 @@ void	ft_initialize_textures_data(t_texture_data *textures)
 	textures->size = TEXTURE_SIZE;
 	textures->hex_floor = 0x0;
 	textures->hex_ceiling = 0x0;
-	textures->texture_config.no_texture_path = NULL;
-	textures->texture_config.so_texture_path = NULL;
-	textures->texture_config.we_texture_path = NULL;
-	textures->texture_config.ea_texture_path = NULL;
+	textures->text_config.no_text_path = NULL;
+	textures->text_config.so_text_path = NULL;
+	textures->text_config.we_text_path = NULL;
+	textures->text_config.ea_text_path = NULL;
 }
 
 void	ft_initialize_graphic_pixels(t_game_data *game_data)
@@ -97,17 +97,17 @@ void	ft_update_graphic_pixels(t_game_data *game_data,
 
 void	ft_initialize_textures(t_game_data *game_data)
 {
-	char	*texture_paths[4];
+	char	*text_paths[4];
 	int		i;
 
-	texture_paths[DIR_NORTH]
-		= game_data->texture_data.texture_config.no_texture_path;
-	texture_paths[DIR_SOUTH]
-		= game_data->texture_data.texture_config.so_texture_path;
-	texture_paths[DIR_WEST]
-		= game_data->texture_data.texture_config.we_texture_path;
-	texture_paths[DIR_EAST]
-		= game_data->texture_data.texture_config.ea_texture_path;
+	text_paths[DIR_NORTH]
+		= game_data->texture_data.text_config.no_text_path;
+	text_paths[DIR_SOUTH]
+		= game_data->texture_data.text_config.so_text_path;
+	text_paths[DIR_WEST]
+		= game_data->texture_data.text_config.we_text_path;
+	text_paths[DIR_EAST]
+		= game_data->texture_data.text_config.ea_text_path;
 	game_data->textures = ft_calloc(5, sizeof * game_data->textures);
 	if (!game_data->textures)
 		ft_clean_and_exit(game_data, ft_error_msg(NULL, ERR_MALLOC, 1));
@@ -115,7 +115,7 @@ void	ft_initialize_textures(t_game_data *game_data)
 	while (++i < 4)
 	{
 		game_data->textures[i] = ft_convert_xpm_to_img(game_data,
-				texture_paths[i]);
+				text_paths[i]);
 		if (!game_data->textures[i])
 			ft_clean_and_exit(game_data,
 				ft_error_msg(NULL, ERR_TEX_LOAD, 1));

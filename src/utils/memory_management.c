@@ -19,18 +19,18 @@ void ft_free_table(void **table)
 //free all textures data
 void ft_free_texture_data(t_texture_data *textures)
 {
-    if (textures->texture_config.no_texture_path)
-		free(textures->texture_config.no_texture_path);
-	if (textures->texture_config.so_texture_path)
-		free(textures->texture_config.so_texture_path);
-	if (textures->texture_config.we_texture_path)
-		free(textures->texture_config.we_texture_path);
-	if (textures->texture_config.ea_texture_path)
-		free(textures->texture_config.ea_texture_path);
-	if (textures->texture_config.floor_color)
-		free(textures->texture_config.floor_color);
-	if (textures->texture_config.ceiling_color)
-		free(textures->texture_config.ceiling_color);
+    if (textures->text_config.no_text_path)
+		free(textures->text_config.no_text_path);
+	if (textures->text_config.so_text_path)
+		free(textures->text_config.so_text_path);
+	if (textures->text_config.we_text_path)
+		free(textures->text_config.we_text_path);
+	if (textures->text_config.ea_text_path)
+		free(textures->text_config.ea_text_path);
+	if (textures->text_config.floor_color)
+		free(textures->text_config.floor_color);
+	if (textures->text_config.ceiling_color)
+		free(textures->text_config.ceiling_color);
 }
 
 void ft_free_map_table(t_game_data *game_data)
