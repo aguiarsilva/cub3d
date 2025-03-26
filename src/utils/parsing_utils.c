@@ -1,6 +1,5 @@
 #include "cub3d.h"
 
-
 int	ft_empty_char(char c)
 {
 	if (c != ' ' && c != '\t' && c != '\r'
@@ -42,7 +41,17 @@ bool	ft_comfirm_digit_absence(char *str)
 
 int	ft_skip_whitespace(char *line, int *index)
 {
-	while (line[*index] == ' ' || line[*index] == '\t' || line[*index] == '\n')
+		while (line[*index] == ' ' || line[*index] == '\t' || 
+		   line[*index] == '\r' || line[*index] == '\v' || 
+		   line[*index] == '\f')
 		(*index)++;
 	return (1);
+}
+
+int	ft_validate_map_char(t_game_data *game_data, char current_char)
+{
+	if (!(ft_strchr("10NSEW", current_char)))
+		return (ft_error_msg(game_data->map_data.path, 
+				ERR_INV_LETTER, STATUS_FAIL));
+	return (STATUS_OK);
 }

@@ -6,7 +6,7 @@
 #    By: baguiar- <baguiar-@student.42wolfsburg.    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/02/20 15:02:36 by dsamuel           #+#    #+#              #
-#    Updated: 2025/03/25 13:32:18 by baguiar-         ###   ########.fr        #
+#    Updated: 2025/03/26 14:43:17 by baguiar-         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -32,7 +32,7 @@ SRC		= 	cub3dgame/main.c \
             debugtools/debug.c debugtools/debug_utils.c \
             initialization/init_data.c initialization/init_mlx.c initialization/init_textures.c initialization/init_movement.c \
             initialization/init_player.c parsing/build_map.c parsing/check_file.c parsing/parse_data.c parsing/parse_map.c parsing/validate_map.c \
-            player/collision_detection.c player/player_movement.c player/player_rotation.c \
+            parsing/validate_player_position.c parsing/validate_textures.c player/collision_detection.c player/player_movement.c player/player_rotation.c \
             rendering/raycasting.c rendering/render_minimap.c rendering/render_textures.c rendering/render.c \
             utils/error_handling.c utils/graphic_utils.c utils/memory_management.c utils/parsing_utils.c
 

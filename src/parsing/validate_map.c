@@ -37,78 +37,29 @@ int	ft_validate_map_boundaries(t_map_data *map_data, char **map_table)
 	return (STATUS_OK);
 }
 
-
 int	ft_validate_map_components(t_game_data *game_data, char **map_table)
 {
-	int	i;
-	int	j;
+	int	row;
+	int	col;
 
-	i = 0;
+	row = 0;
 	game_data->player.movement.direction = '0';
-	while (map_table[i] != NULL)
+	while (map_table[row] != NULL)
 	{
-		j = 0;
-		while (map_table[i][j])
+		col = 0;
+		while (map_table[row][col])
 		{
-			while (game_data->map[i][j] == ' ' || game_data->map[i][j] == '\t'
-			|| game_data->map[i][j] == '\r'
-			|| game_data->map[i][j] == '\v' || game_data->map[i][j] == '\f')
-				j++;
-			if (!(ft_strchr("10NSEW", map_table[i][j])))
-				return (ft_error_msg(game_data->map_data.path, ERR_INV_LETTER, STATUS_FAIL));
-			if (ft_strchr("NSEW", map_table[i][j]) && game_data->player.movement.direction != '0')
-				return (ft_error_msg(game_data->map_data.path, ERR_NUM_PLAYER, STATUS_FAIL));
-			if (ft_strchr("NSEW", map_table[i][j]) && game_data->player.movement.direction == '0')
-				game_data->player.movement.direction = map_table[i][j];
-			j++;
+			ft_skip_whitespace(map_table[row], &col);
+			if (ft_validate_map_char(game_data, map_table[row][col])
+				== STATUS_FAIL)
+				return (STATUS_FAIL);
+			if (ft_handle_player_direction(game_data, map_table[row][col])
+				== STATUS_FAIL)
+				return (STATUS_FAIL);
+			col++;
 		}
-		i++;
+		row++;
 	}
-	return (STATUS_OK);
-}
-
-int	ft_validate_position(t_game_data *game_data, char **map_table)
-{
-	int	i;
-	int	j;
-
-	i = (int)game_data->player.y_pos;
-	j = (int)game_data->player.x_pos;
-	if (ft_strlen(map_table[i - 1]) < (size_t)j
-		|| ft_strlen(map_table[i + 1]) < (size_t)j
-		|| ft_empty_char(map_table[i][j - 1]) == STATUS_OK
-		|| ft_empty_char(map_table[i][j + 1]) == STATUS_OK
-		|| ft_empty_char(map_table[i - 1][j]) == STATUS_OK
-		|| ft_empty_char(map_table[i + 1][j]) == STATUS_OK)
-		return (STATUS_FAIL);
-	return (STATUS_OK);
-}
-
-int	ft_validate_player_position(t_game_data *game_data, char **map_table)
-{
-	int	i;
-	int	j;
-
-	if (game_data->player.movement.direction == '0')
-		return (ft_error_msg(game_data->map_data.path, ERR_PLAYER_DIR, STATUS_FAIL));
-	i = 0;
-	while (map_table[i])
-	{
-		j = 0;
-		while (map_table[i][j])
-		{
-			if (ft_strchr("NSEW", map_table[i][j]))
-			{
-				game_data->player.x_pos = (double)j + 0.5;
-				game_data->player.y_pos = (double)i + 0.5;
-				map_table[i][j] = '0';
-			}
-			j++;
-		}
-		i++;
-	}
-	if (ft_validate_position(game_data, map_table) == STATUS_FAIL)
-		return (ft_error_msg(game_data->map_data.path, ERR_PLAYER_POS, STATUS_FAIL));
 	return (STATUS_OK);
 }
 
@@ -137,63 +88,21 @@ int	ft_validate_map_end_reached(t_map_data *map)
 int	ft_validate_map(t_game_data *game_data, char **map_table)
 {
 	if (!game_data->map)
-		return (ft_error_msg(game_data->map_data.path, ERR_MAP_MISSING, STATUS_FAIL));
-	if (ft_validate_map_boundaries(&game_data->map_data, map_table) == STATUS_FAIL)
-		return (ft_error_msg(game_data->map_data.path, ERR_MAP_NO_WALLS, STATUS_FAIL));
+		return (ft_error_msg(game_data->map_data.path,
+				ERR_MAP_MISSING, STATUS_FAIL));
+	if (ft_validate_map_boundaries(&game_data->map_data, map_table)
+		== STATUS_FAIL)
+		return (ft_error_msg(game_data->map_data.path,
+				ERR_MAP_NO_WALLS, STATUS_FAIL));
 	if (game_data->map_data.map_height < 3)
-		return (ft_error_msg(game_data->map_data.path, ERR_MAP_TOO_SMALL, STATUS_FAIL));
+		return (ft_error_msg(game_data->map_data.path,
+				ERR_MAP_TOO_SMALL, STATUS_FAIL));
 	if (ft_validate_map_components(game_data, map_table) == STATUS_FAIL)
 		return (STATUS_FAIL);
 	if (ft_validate_player_position(game_data, map_table) == STATUS_FAIL)
 		return (STATUS_FAIL);
 	if (ft_validate_map_end_reached(&game_data->map_data) == STATUS_FAIL)
-		return (ft_error_msg(game_data->map_data.path, ERR_MAP_LAST, STATUS_FAIL));
-	return (STATUS_OK);
-}
-
-int	ft_validate_rgb(int *rgb)
-{
-	int	i;
-
-	i = 0;
-	while (i < 3)
-	{
-		if (rgb[i] < 0 || rgb[i] > 255)
-			return (ft_error_val(rgb[i], ERR_TEX_RGB_VAL, STATUS_FAIL));
-		i++;
-	}
-	return (STATUS_OK);
-}
-
-unsigned long	ft_convert_rgb_to_hex(int *rgb_tab)
-{
-	unsigned long	result;
-	int				r;
-	int				g;
-	int				b;
-
-	r = rgb_tab[0];
-	g = rgb_tab[1];
-	b = rgb_tab[2];
-	result = ((r & 0xff) << 16) + ((g & 0xff) << 8) + (b & 0xff);
-	return (result);
-}
-
-int	ft_validate_textures_map(t_game_data *game_data, t_texture_data *textures)
-{
-	if (!textures->texture_config.no_texture_path || !textures->texture_config.so_texture_path || !textures->texture_config.we_texture_path
-		|| !textures->texture_config.ea_texture_path)
-		return (ft_error_msg(game_data->map_data.path, ERR_TEX_MISSING, STATUS_FAIL));
-	if (!textures->texture_config.floor_color || !textures->texture_config.ceiling_color)
-		return (ft_error_msg(game_data->map_data.path, ERR_COLOR_MISSING, STATUS_FAIL));
-	if (ft_file_and_dir_checker(textures->texture_config.no_texture_path, false) == STATUS_FAIL
-		|| ft_file_and_dir_checker(textures->texture_config.so_texture_path, false) == STATUS_FAIL
-		|| ft_file_and_dir_checker(textures->texture_config.we_texture_path, false) == STATUS_FAIL
-		|| ft_file_and_dir_checker(textures->texture_config.ea_texture_path, false) == STATUS_FAIL
-		|| ft_validate_rgb(textures->texture_config.floor_color) == STATUS_FAIL
-		|| ft_validate_rgb(textures->texture_config.ceiling_color) == STATUS_FAIL)
-		return (STATUS_FAIL);
-	textures->hex_floor = ft_convert_rgb_to_hex(textures->texture_config.floor_color);
-	textures->hex_ceiling = ft_convert_rgb_to_hex(textures->texture_config.ceiling_color);
+		return (ft_error_msg(game_data->map_data.path, ERR_MAP_LAST,
+				STATUS_FAIL));
 	return (STATUS_OK);
 }

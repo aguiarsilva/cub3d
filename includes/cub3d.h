@@ -6,7 +6,7 @@
 /*   By: baguiar- <baguiar-@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/23 13:27:42 by baguiar-          #+#    #+#             */
-/*   Updated: 2025/03/26 14:24:56 by baguiar-         ###   ########.fr       */
+/*   Updated: 2025/03/26 14:39:28 by baguiar-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -274,12 +274,16 @@ int				ft_validate_map_boundaries(t_map_data *map_data,
 					char **map_table);
 int				ft_validate_map_components(t_game_data *game_data,
 					char **map_table);
+int				ft_validate_map_end_reached(t_map_data *map);
+int				ft_validate_map(t_game_data *game_data, char **map_table);
+
+// validate_player_position.c
 int				ft_validate_position(t_game_data *game_data,
 					char **map_table);
 int				ft_validate_player_position(t_game_data *game_data,
 					char **map_table);
-int				ft_validate_map_end_reached(t_map_data *map);
-int				ft_validate_map(t_game_data *game_data, char **map_table);
+
+// validate_textures.c
 int				ft_validate_rgb(int *rgb);
 unsigned long	ft_convert_rgb_to_hex(int *rgb_tab);
 int				ft_validate_textures_map(t_game_data *game_data,
