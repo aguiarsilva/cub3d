@@ -19,29 +19,14 @@ int	ft_validate_position(t_game_data *game_data, char **map_table)
 
 int	ft_validate_player_position(t_game_data *game_data, char **map_table)
 {
-	int	i;
-	int	j;
-
-	if (game_data->player.movement.direction == '0')
-		return (ft_error_msg(game_data->map_data.path, ERR_PLAYER_DIR, STATUS_FAIL));
-	i = 0;
-	while (map_table[i])
-	{
-		j = 0;
-		while (map_table[i][j])
-		{
-			if (ft_strchr("NSEW", map_table[i][j]))
-			{
-				game_data->player.x_pos = (double)j + 0.5;
-				game_data->player.y_pos = (double)i + 0.5;
-				map_table[i][j] = '0';
-			}
-			j++;
-		}
-		i++;
-	}
+	if (ft_check_player_direction(game_data) == STATUS_FAIL)
+		return (STATUS_FAIL);
+	if (ft_find_and_set_player_position(game_data, map_table) == STATUS_FAIL)
+		return (ft_error_msg(game_data->map_data.path,
+				ERR_PLAYER_POS, STATUS_FAIL));
 	if (ft_validate_position(game_data, map_table) == STATUS_FAIL)
-		return (ft_error_msg(game_data->map_data.path, ERR_PLAYER_POS, STATUS_FAIL));
+		return (ft_error_msg(game_data->map_data.path,
+				ERR_PLAYER_POS, STATUS_FAIL));
 	return (STATUS_OK);
 }
 
@@ -50,9 +35,43 @@ int	ft_handle_player_direction(t_game_data *game_data, char current_char)
 	if (ft_strchr("NSEW", current_char))
 	{
 		if (game_data->player.movement.direction != '0')
-			return (ft_error_msg(game_data->map_data.path, 
+			return (ft_error_msg(game_data->map_data.path,
 					ERR_NUM_PLAYER, STATUS_FAIL));
 		game_data->player.movement.direction = current_char;
 	}
 	return (STATUS_OK);
+}
+
+int	ft_check_player_direction(t_game_data *game_data)
+{
+	if (game_data->player.movement.direction == '0')
+		return (ft_error_msg(game_data->map_data.path,
+				ERR_PLAYER_DIR, STATUS_FAIL));
+	return (STATUS_OK);
+}
+
+int	ft_find_and_set_player_position(t_game_data *game_data,
+											char **map_table)
+{
+	int	row;
+	int	col;
+
+	row = 0;
+	while (map_table[row])
+	{
+		col = 0;
+		while (map_table[row][col])
+		{
+			if (ft_strchr("NSEW", map_table[row][col]))
+			{
+				game_data->player.x_pos = (double)col + 0.5;
+				game_data->player.y_pos = (double)row + 0.5;
+				map_table[row][col] = '0';
+				return (STATUS_OK);
+			}
+			col++;
+		}
+		row++;
+	}
+	return (STATUS_FAIL);
 }
