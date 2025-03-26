@@ -28,25 +28,25 @@ char	*ft_get_text_path(char *line, int j)
 	return (path);
 }
 
-int	ft_fill_direction(t_texture_data *textures, char *line, int j)
+int	ft_fill_direction(t_texture_data *texts, char *line, int j)
 {
 	if (line[j + 2] && ft_isprint(line[j + 2]))
 		return (STATUS_ERROR);
 	if (line[j] == 'N' && line[j + 1] == 'O'
-		&& !(textures->text_config.no_text_path))
-		textures->text_config.no_text_path
+		&& !(texts->text_config.no_text_path))
+		texts->text_config.no_text_path
 			= ft_get_text_path(line, j + 2);
 	else if (line[j] == 'S' && line[j + 1] == 'O'
-		&& !(textures->text_config.so_text_path))
-		textures->text_config.so_text_path
+		&& !(texts->text_config.so_text_path))
+		texts->text_config.so_text_path
 			= ft_get_text_path(line, j + 2);
 	else if (line[j] == 'W' && line[j + 1] == 'E'
-		&& !(textures->text_config.we_text_path))
-		textures->text_config.we_text_path
+		&& !(texts->text_config.we_text_path))
+		texts->text_config.we_text_path
 			= ft_get_text_path(line, j + 2);
 	else if (line[j] == 'E' && line[j + 1] == 'A'
-		&& !(textures->text_config.ea_text_path))
-		textures->text_config.ea_text_path
+		&& !(texts->text_config.ea_text_path))
+		texts->text_config.ea_text_path
 			= ft_get_text_path(line, j + 2);
 	else
 		return (STATUS_ERROR);

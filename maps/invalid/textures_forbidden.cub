@@ -1,7 +1,7 @@
-NO textures/test/forbidden.xpm
-SO textures/test/south.xpm
-WE textures/test/west.xpm
-EA textures/test/east.xpm
+NO texts/test/forbidden.xpm
+SO texts/test/south.xpm
+WE texts/test/west.xpm
+EA texts/test/east.xpm
 
 F 20,20,20
 C 200,200,200

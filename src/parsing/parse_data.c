@@ -87,7 +87,7 @@ int	ft_parse_arguments(t_game_data *game_data, char **argv)
 		return (ft_free_game_data(game_data));
 	if (ft_validate_map(game_data, game_data->map) == STATUS_FAIL)
 		return (ft_free_game_data(game_data));
-	if (ft_validate_textures_map(game_data, &game_data->texture_data)
+	if (ft_validate_texts_map(game_data, &game_data->texture_data)
 		== STATUS_FAIL)
 		return (ft_free_game_data(game_data));
 	ft_initialize_player_direction(game_data);

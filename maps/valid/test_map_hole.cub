@@ -1,7 +1,7 @@
-NO textures/wolfenstein/grey_stone.xpm
-SO textures/wolfenstein/purple_stone.xpm
-WE textures/wolfenstein/red_brick.xpm
-EA textures/wolfenstein/wood.xpm
+NO texts/wolfenstein/grey_stone.xpm
+SO texts/wolfenstein/purple_stone.xpm
+WE texts/wolfenstein/red_brick.xpm
+EA texts/wolfenstein/wood.xpm
 
 F 18,53,25
 C 153,204,255

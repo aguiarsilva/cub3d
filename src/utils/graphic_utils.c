@@ -51,20 +51,20 @@ int	*ft_compose_rgb_colors(char *line)
 	return (ft_move_to_rgb_contents(rgb_to_convert, rgb));
 }
 
-int	ft_fill_rgb_color(t_game_data *game_data, t_texture_data *textures, char *line, int j)
+int	ft_fill_rgb_color(t_game_data *game_data, t_texture_data *texts, char *line, int j)
 {
 	if (line[j + 1] && ft_isprint(line[j + 1]))
 		return (ft_error_msg(game_data->map_data.path, ERR_FLOOR_CEILING, STATUS_ERROR));
-	if (!textures->text_config.ceiling_color && line[j] == 'C')
+	if (!texts->text_config.ceiling_color && line[j] == 'C')
 	{
-		textures->text_config.ceiling_color = ft_compose_rgb_colors(line + j + 1);
-		if (textures->text_config.ceiling_color == 0)
+		texts->text_config.ceiling_color = ft_compose_rgb_colors(line + j + 1);
+		if (texts->text_config.ceiling_color == 0)
 			return (ft_error_msg(game_data->map_data.path, ERR_COLOR_CEILING, STATUS_ERROR));
 	}
-	else if (!textures->text_config.floor_color && line[j] == 'F')
+	else if (!texts->text_config.floor_color && line[j] == 'F')
 	{
-		textures->text_config.floor_color = ft_compose_rgb_colors(line + j + 1);
-		if (textures->text_config.floor_color == 0)
+		texts->text_config.floor_color = ft_compose_rgb_colors(line + j + 1);
+		if (texts->text_config.floor_color == 0)
 			return (ft_error_msg(game_data->map_data.path, ERR_COLOR_FLOOR, STATUS_ERROR));
 	}
 	else

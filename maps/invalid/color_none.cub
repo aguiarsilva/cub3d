@@ -1,7 +1,7 @@
-NO textures/test/north.xpm
-SO textures/test/south.xpm
-WE textures/test/west.xpm
-EA textures/test/east.xpm
+NO texts/test/north.xpm
+SO texts/test/south.xpm
+WE texts/test/west.xpm
+EA texts/test/east.xpm
 
 11111
 10001

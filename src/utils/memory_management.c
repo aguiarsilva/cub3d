@@ -16,21 +16,21 @@ void ft_free_table(void **table)
         table = NULL;
     }
 }
-//free all textures data
-void ft_free_texture_data(t_texture_data *textures)
+//free all texts data
+void ft_free_texture_data(t_texture_data *texts)
 {
-    if (textures->text_config.no_text_path)
-		free(textures->text_config.no_text_path);
-	if (textures->text_config.so_text_path)
-		free(textures->text_config.so_text_path);
-	if (textures->text_config.we_text_path)
-		free(textures->text_config.we_text_path);
-	if (textures->text_config.ea_text_path)
-		free(textures->text_config.ea_text_path);
-	if (textures->text_config.floor_color)
-		free(textures->text_config.floor_color);
-	if (textures->text_config.ceiling_color)
-		free(textures->text_config.ceiling_color);
+    if (texts->text_config.no_text_path)
+		free(texts->text_config.no_text_path);
+	if (texts->text_config.so_text_path)
+		free(texts->text_config.so_text_path);
+	if (texts->text_config.we_text_path)
+		free(texts->text_config.we_text_path);
+	if (texts->text_config.ea_text_path)
+		free(texts->text_config.ea_text_path);
+	if (texts->text_config.floor_color)
+		free(texts->text_config.floor_color);
+	if (texts->text_config.ceiling_color)
+		free(texts->text_config.ceiling_color);
 }
 
 void ft_free_map_table(t_game_data *game_data)
@@ -50,9 +50,9 @@ void ft_free_map_table(t_game_data *game_data)
 int ft_free_game_data(t_game_data *game_data)
 {
 
-    if (game_data->textures)
+    if (game_data->texts)
     {
-        ft_free_table((void **)game_data->textures);
+        ft_free_table((void **)game_data->texts);
     }
     if (game_data->texture_pixels)
     {
