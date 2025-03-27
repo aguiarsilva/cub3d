@@ -7,11 +7,15 @@ int	ft_rotation(t_game_data *game_data, double rotation_speed)
 
 	player = &game_data->player;
 	tmp_x = player->dir_x;
-	player->dir_x = player->dir_x * cos(rotation_speed) - player->dir_y * sin(rotation_speed);
-	player->dir_y = tmp_x * sin(rotation_speed) + player->dir_y * cos(rotation_speed);
+	player->dir_x = player->dir_x * cos(rotation_speed) - player->dir_y
+		* sin(rotation_speed);
+	player->dir_y = tmp_x * sin(rotation_speed) + player->dir_y
+		* cos(rotation_speed);
 	tmp_x = player->plane_x;
-	player->plane_x = player->plane_x * cos(rotation_speed) - player->plane_y * sin(rotation_speed);
-	player->plane_y = tmp_x * sin(rotation_speed) + player->plane_y * cos(rotation_speed);
+	player->plane_x = player->plane_x * cos(rotation_speed) - player->plane_y
+		* sin(rotation_speed);
+	player->plane_y = tmp_x * sin(rotation_speed) + player->plane_y
+		* cos(rotation_speed);
 	return (1);
 }
 

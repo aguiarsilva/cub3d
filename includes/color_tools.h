@@ -3,30 +3,43 @@
 /*                                                        :::      ::::::::   */
 /*   color_tools.h                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dsamuel <dsamuel@student.42.fr>            +#+  +:+       +#+        */
+/*   By: baguiar- <baguiar-@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/05 17:05:46 by dsamuel           #+#    #+#             */
-/*   Updated: 2025/03/05 19:42:48 by dsamuel          ###   ########.fr       */
+/*   Updated: 2025/03/23 13:25:17 by baguiar-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 /*
 
-This header file defines a set of macros for terminal text formatting using ANSI escape codes. These macros can be used to change the appearance of text in the terminal, such as making it bold, changing its color, or setting a background color.
+This header file defines a set of macros for terminal text formatting using ANSI 
+escape codes. These macros can be used to changethe appearance of text in the 
+terminal, such as making it bold, changing its color, or setting a background 
+color.
 
 - **RESET**: Resets all text attributes to their default values.
-- **BOLD, DIM, ITAL, ULINE**: Apply bold, dim, italic, and underline styles to the text, respectively.
-- **BLACK, RED, GREEN, YELLOW, BLUE, PURPLE, CYAN, WHITE**: Set the text color to black, red, green, yellow, blue, purple, cyan, and white, respectively.
-- **BRIGHT_BLACK, BRIGHT_RED, BRIGHT_GREEN, BRIGHT_YELLOW, BRIGHT_BLUE, BRIGHT_PURPLE, BRIGHT_CYAN, BRIGHT_WHITE**: Set the text color to bright versions of black, red, green, yellow, blue, purple, cyan, and white, respectively.
-- **BG_BLACK, BG_RED, BG_GREEN, BG_YELLOW, BG_BLUE, BG_PURPLE, BG_CYAN, BG_WHITE**: Set the background color to black, red, green, yellow, blue, purple, cyan, and white, respectively.
-- **BG_BRIGHT_BLACK, BG_BRIGHT_RED, BG_BRIGHT_GREEN, BG_BRIGHT_YELLOW, BG_BRIGHT_BLUE, BG_BRIGHT_PURPLE, BG_BRIGHT_CYAN, BG_BRIGHT_WHITE**: Set the background color to bright versions of black, red, green, yellow, blue, purple, cyan, and white, respectively.
+- **BOLD, DIM, ITAL, ULINE**: Apply bold, dim, italic, and underline styles to 
+the text, respectively.
+- **BLACK, RED, GREEN, YELLOW, BLUE, PURPLE, CYAN, WHITE**: Set the text color
+to black, red, green, yellow, blue, purple, cyan, and white, respectively.
+- **BRIGHT_BLACK, BRIGHT_RED, BRIGHT_GREEN, BRIGHT_YELLOW, BRIGHT_BLUE, 
+BRIGHT_PURPLE, BRIGHT_CYAN, BRIGHT_WHITE**: Set the text color to bright versions
+of black, red, green, yellow, blue, purple, cyan, and white, respectively.
+- **BG_BLACK, BG_RED, BG_GREEN, BG_YELLOW, BG_BLUE, BG_PURPLE, BG_CYAN, 
+BG_WHITE**: Set the background color to black, red, green, yellow, blue, purple, 
+cyan, and white, respectively.
+- **BG_BRIGHT_BLACK, BG_BRIGHT_RED, BG_BRIGHT_GREEN, BG_BRIGHT_YELLOW, 
+BG_BRIGHT_BLUE, BG_BRIGHT_PURPLE, BG_BRIGHT_CYAN, BG_BRIGHT_WHITE**: Set the 
+background color to bright versions of black, red, green, yellow, blue, purple, 
+cyan, and white, respectively.
 
-These macros can be used in your C code to format terminal output, making it easier to highlight important information or improve readability.
+These macros can be used in your C code to format terminal output, 
+making it easier to highlight important information or improve readability.
 
 Similar code found with 1 license type */
 
-#ifndef COLORS_TOOLS_H
-# define COLORS_TOOLS_H
+#ifndef COLOR_TOOLS_H
+# define COLOR_TOOLS_H
 
 # define RESET	"\e[0m"  // Reset all attributes
 
