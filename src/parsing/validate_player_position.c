@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   validate_player_position.c                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: dsamuel <dsamuel@student.42wolfsburg.de    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/03/28 09:20:06 by dsamuel           #+#    #+#             */
+/*   Updated: 2025/03/28 09:20:06 by dsamuel          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "cub3d.h"
 
 int	ft_validate_position(t_game_data *game_data, char **map_table)
