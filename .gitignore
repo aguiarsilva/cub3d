@@ -1,4 +1,5 @@
 # Program
+cub3D
 cub3d
 
 # Prerequisites
@@ -21,6 +22,8 @@ objects/
 *.pch
 
 # Libraries
+*lib/libft/*.o
+*lib/minilibx-linux/
 *.lib
 *.a
 *.la
