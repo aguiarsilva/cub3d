@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: baguiar- <baguiar-@student.42wolfsburg.    +#+  +:+       +#+         #
+#    By: dsamuel <dsamuel@student.42wolfsburg.de    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/02/20 15:02:36 by dsamuel           #+#    #+#              #
-#    Updated: 2025/03/28 10:43:46 by baguiar-         ###   ########.fr        #
+#    Updated: 2025/04/09 20:50:23 by dsamuel          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,7 +14,7 @@
 # Project name
 NAME	= cub3D
 
-CC		= gcc
+CC		= cc
 CFLAGS	= -Werror -Wextra -Wall -g3 #-fsanitize=address
 
 # minilibx-linux and libft libraries
