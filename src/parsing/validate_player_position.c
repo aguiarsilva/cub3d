@@ -19,6 +19,11 @@ int	ft_validate_position(t_game_data *game_data, char **map_table)
 
 	i = (int)game_data->player.y_pos;
 	j = (int)game_data->player.x_pos;
+	if (i <= 0 || j <= 0 || !map_table[i + 1] || !map_table[i - 1]
+		|| (int)ft_strlen(map_table[i]) <= j
+		|| (int)ft_strlen(map_table[i - 1]) <= j
+		|| (int)ft_strlen(map_table[i + 1]) <= j)
+		return (STATUS_FAIL);
 	if (ft_strlen(map_table[i - 1]) < (size_t)j
 		|| ft_strlen(map_table[i + 1]) < (size_t)j
 		|| ft_empty_char(map_table[i][j - 1]) == STATUS_OK

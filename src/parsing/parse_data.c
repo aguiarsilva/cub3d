@@ -6,7 +6,7 @@
 /*   By: dsamuel <dsamuel@student.42wolfsburg.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/28 09:18:40 by dsamuel           #+#    #+#             */
-/*   Updated: 2025/03/28 09:18:47 by dsamuel          ###   ########.fr       */
+/*   Updated: 2025/04/09 21:11:22 by dsamuel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ void	ft_parse_game_data(char *path, t_game_data *game_data)
 	column = 0;
 	game_data->map_data.line_count = ft_get_total_lines(path);
 	game_data->map_data.path = path;
-	game_data->map_data.file = ft_calloc(game_data->map_data.line_count \
+	game_data->map_data.file = ft_calloc(game_data->map_data.line_count
 			+ 1, sizeof(char *));
 	if (!(game_data->map_data.file))
 	{
