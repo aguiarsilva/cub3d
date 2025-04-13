@@ -28,7 +28,7 @@ int	ft_validate_rgb(int *rgb)
 
 unsigned long	ft_con_rgb_hex(int *rgb_tab)
 {
-	unsigned long	result;
+	unsigned long	rgb_val;
 	int				r;
 	int				g;
 	int				b;
@@ -36,8 +36,8 @@ unsigned long	ft_con_rgb_hex(int *rgb_tab)
 	r = rgb_tab[0];
 	g = rgb_tab[1];
 	b = rgb_tab[2];
-	result = ((r & 0xff) << 16) + ((g & 0xff) << 8) + (b & 0xff);
-	return (result);
+	rgb_val = ((r & 0xff) << 16) + ((g & 0xff) << 8) + (b & 0xff);
+	return (rgb_val);
 }
 
 int	ft_validate_textures_map(t_game_data *game_data, t_texture_data *textures)
