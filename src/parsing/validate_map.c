@@ -6,7 +6,7 @@
 /*   By: dsamuel <dsamuel@student.42wolfsburg.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/28 09:19:28 by dsamuel           #+#    #+#             */
-/*   Updated: 2025/04/09 21:11:24 by dsamuel          ###   ########.fr       */
+/*   Updated: 2025/04/15 11:16:32 by dsamuel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,34 +14,44 @@
 
 int	ft_validate_horizontal_boundaries(char **map_table, int i, int j)
 {
-	if (!map_table || !map_table[i] || !map_table[i][j])
+	char	*trimmed_row;
+
+	if (!map_table || !map_table[i])
 		return (STATUS_FAIL);
-	while (map_table[i][j] == ' ' || map_table[i][j] == '\t'
-	|| map_table[i][j] == '\r' || map_table[i][j] == '\v'
-	|| map_table[i][j] == '\f')
-		j++;
-	while (map_table[i][j])
+	trimmed_row = ft_strtrim_whitespace(map_table[i]);
+	if (!trimmed_row)
+		return (STATUS_FAIL);
+	while (trimmed_row[j])
 	{
-		if (map_table[i][j] != '1')
+		if (trimmed_row[j] != '1')
+		{
+			free(trimmed_row);
 			return (STATUS_FAIL);
+		}
 		j++;
 	}
+	free(trimmed_row);
 	return (STATUS_OK);
 }
 
 int	ft_validate_map_boundaries(t_map_data *map_data, char **map_table)
 {
-	int	i;
-	int	j;
+	int		i;
+	char	*trimmed_row;
 
 	if (ft_validate_horizontal_boundaries(map_table, 0, 0) == STATUS_FAIL)
-		return (STATUS_OK);
+		return (STATUS_FAIL);
 	i = 1;
 	while (i < (map_data->map_height - 1))
 	{
-		j = ft_strlen(map_table[i]) - 1;
-		if (map_table[i][j] != '1')
+		trimmed_row = ft_strtrim_whitespace(map_table[i]);
+		if (!trimmed_row || trimmed_row[0] != '1'
+			|| trimmed_row[ft_strlen(trimmed_row) - 1] != '1')
+		{
+			free(trimmed_row);
 			return (STATUS_FAIL);
+		}
+		free(trimmed_row);
 		i++;
 	}
 	if (ft_validate_horizontal_boundaries(map_table, i, 0) == STATUS_FAIL)
@@ -51,25 +61,22 @@ int	ft_validate_map_boundaries(t_map_data *map_data, char **map_table)
 
 int	ft_validate_map_components(t_game_data *game_data, char **map_table)
 {
-	int	row;
-	int	col;
+	int		row;
+	char	*trimmed_row;
 
 	row = 0;
 	game_data->player.movement.direction = '0';
 	while (map_table[row] != NULL)
 	{
-		col = 0;
-		while (map_table[row][col])
+		trimmed_row = ft_strtrim_whitespace(map_table[row]);
+		if (!trimmed_row)
+			return (STATUS_FAIL);
+		if (ft_validate_map_row(game_data, trimmed_row) == STATUS_FAIL)
 		{
-			ft_skip_whitespace(map_table[row], &col);
-			if (ft_validate_map_char(game_data, map_table[row][col])
-				== STATUS_FAIL)
-				return (STATUS_FAIL);
-			if (ft_handle_player_direction(game_data, map_table[row][col])
-				== STATUS_FAIL)
-				return (STATUS_FAIL);
-			col++;
+			free(trimmed_row);
+			return (STATUS_FAIL);
 		}
+		free(trimmed_row);
 		row++;
 	}
 	return (STATUS_OK);
@@ -77,21 +84,21 @@ int	ft_validate_map_components(t_game_data *game_data, char **map_table)
 
 int	ft_validate_map_end_reached(t_map_data *map)
 {
-	int	i;
-	int	j;
+	int		i;
+	char	*trimmed_row;
 
 	i = map->end_found;
 	while (map->file[i])
 	{
-		j = 0;
-		while (map->file[i][j])
+		trimmed_row = ft_strtrim_whitespace(map->file[i]);
+		if (!trimmed_row)
+			return (STATUS_FAIL);
+		if (ft_strlen(trimmed_row) > 0)
 		{
-			if (map->file[i][j] != ' ' && map->file[i][j] != '\t'
-				&& map->file[i][j] != '\r' && map->file[i][j] != '\n'
-				&& map->file[i][j] != '\v' && map->file[i][j] != '\f')
-				return (STATUS_FAIL);
-			j++;
+			free(trimmed_row);
+			return (STATUS_FAIL);
 		}
+		free(trimmed_row);
 		i++;
 	}
 	return (STATUS_OK);
