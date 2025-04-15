@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: baguiar- <baguiar-@student.42wolfsburg.    +#+  +:+       +#+        */
+/*   By: dsamuel <dsamuel@student.42wolfsburg.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/23 13:27:42 by baguiar-          #+#    #+#             */
-/*   Updated: 2025/03/26 23:01:03 by baguiar-         ###   ########.fr       */
+/*   Updated: 2025/04/15 11:17:14 by dsamuel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -349,6 +349,8 @@ int				ft_render(t_game_data *game_data);
 // error_handling.c
 int				ft_error_msg(char *arg, char *str, int er_code);
 int				ft_error_val(int arg, char *str, int er_code);
+char			*ft_strtrim_whitespace(const char *str);
+int				ft_validate_map_row(t_game_data *game_data, const char *row);
 
 // graphic_utils.c
 void			ft_set_image_pixel(t_img_data *image, int x, int y,
